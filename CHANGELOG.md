@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Every vehicle is now a list of cost blocks that can be edited in the page:
+  purchase and resale, insurance, road tax, fuel or electricity, maintenance,
+  battery packs, lease, public transport and extra costs.
+- Add vehicles from templates (electric scooter, motorbike, car, electric car,
+  lease, public transport or empty), save a vehicle as a copy, or delete it.
+- Show or hide vehicles, and choose which one the others are compared with.
+- Extra cost block for anything else, once or yearly; negative amounts count
+  as income.
+- Diesel price setting, and up to 15 years.
+
+### Changed
+
+- Settings that belonged to one vehicle (free charging, battery scenario and
+  pack price, public transport ticket and rush-hour share, lease price) moved
+  from the sidebar into that vehicle's cost blocks.
+- Public transport ticket choice and battery events are listed per vehicle
+  below the charts.
+
 ## [0.2.0] - 2026-10-01
 
 ### Added
