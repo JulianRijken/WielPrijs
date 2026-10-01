@@ -1,0 +1,197 @@
+/* Visual language borrowed from Dutch roads: Overpass (a road-sign typeface),
+   signage blue, and a yellow licence plate as the one bold element. */
+
+:root {
+  --bg: #eef2f5;
+  --surface: #ffffff;
+  --ink: #15212e;
+  --muted: #5b6b7b;
+  --rule: #c8d1db;
+  --sign: #1f5ba8;
+  --plate: #f2c200;
+  --plate-ink: #111a22;
+  --highlight: #e3edf9;
+  --grid: #dde3ea;
+  --radius-s: 6px;
+  --radius-l: 14px;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121b24;
+    --surface: #1a2631;
+    --ink: #e6ecf1;
+    --muted: #93a3b3;
+    --rule: #2e3d4b;
+    --sign: #6fa2e8;
+    --highlight: #20344a;
+    --grid: #263441;
+  }
+}
+*, *::before, *::after { box-sizing: inherit; }
+
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Overpass", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hero */
+.hero { background: var(--sign); color: #fff; }
+.hero-inner { max-width: 1180px; margin: 0 auto; padding: 48px 24px 56px; }
+.hero h1 {
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+  max-width: 18ch;
+}
+.lede { margin: 0 0 32px; max-width: 56ch; opacity: 0.88; font-size: 1.0625rem; }
+
+.plate {
+  display: inline-flex;
+  align-items: stretch;
+  background: var(--plate);
+  color: var(--plate-ink);
+  border: 3px solid var(--plate-ink);
+  border-radius: 10px;
+  overflow: hidden;
+  min-height: 84px;
+}
+.plate-band {
+  background: #003399;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 10px 10px;
+  min-width: 46px;
+}
+.plate-amount {
+  font-weight: 800;
+  font-size: clamp(2.5rem, 7vw, 4rem);
+  line-height: 1;
+  padding: 14px 24px 8px;
+  letter-spacing: 0.02em;
+}
+.hero-caption { margin: 14px 0 0; font-size: 1.0625rem; opacity: 0.92; }
+
+/* Layout */
+.layout {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 24px 16px 48px; }
+}
+
+/* Controls */
+.controls {
+  position: sticky;
+  top: calc(env(safe-area-inset-top, 0px) + 16px);
+  background: var(--surface);
+  border-radius: var(--radius-l);
+  padding: 20px;
+  border: 1px solid var(--rule);
+}
+@media (max-width: 860px) { .controls { position: static; } }
+
+fieldset { border: 0; margin: 0 0 18px; padding: 0 0 16px; border-bottom: 1px solid var(--rule); }
+fieldset:last-of-type { border-bottom: 0; padding-bottom: 0; }
+legend { font-weight: 700; font-size: 0.95rem; padding: 0; margin-bottom: 10px; }
+
+.field {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 2px 8px;
+  margin-bottom: 12px;
+}
+.field label { font-size: 0.875rem; color: var(--muted); }
+.field output { font-weight: 700; font-size: 0.9rem; }
+.field input[type="range"], .field select { grid-column: 1 / -1; width: 100%; }
+
+input[type="range"] { accent-color: var(--sign); height: 24px; margin: 0; }
+select {
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-s);
+  padding: 7px 8px;
+  margin-top: 4px;
+}
+.check { display: flex; gap: 8px; align-items: center; font-size: 0.875rem; color: var(--muted); }
+.check input { accent-color: var(--sign); width: 16px; height: 16px; }
+
+.reset {
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--sign);
+  background: transparent;
+  border: 1px solid var(--sign);
+  border-radius: var(--radius-s);
+  padding: 8px 12px;
+  margin-top: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+.reset:hover { background: var(--highlight); }
+
+:focus-visible { outline: 3px solid var(--plate); outline-offset: 2px; }
+
+/* Main content */
+main section { margin-bottom: 48px; }
+h2 { font-size: 1.5rem; font-weight: 800; margin: 0 0 4px; letter-spacing: -0.005em; }
+.sub { margin: 0 0 16px; color: var(--muted); font-size: 0.9375rem; max-width: 70ch; }
+
+.table-wrap { overflow-x: auto; background: var(--surface); border-radius: var(--radius-l); border: 1px solid var(--rule); }
+.ranking { width: 100%; border-collapse: collapse; font-size: 0.9375rem; min-width: 560px; }
+.ranking th {
+  text-align: right;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  padding: 12px 16px 8px;
+  border-bottom: 1px solid var(--rule);
+}
+.ranking th:first-child, .ranking td:first-child { text-align: left; }
+.ranking td { text-align: right; padding: 10px 16px; border-bottom: 1px solid var(--grid); }
+.ranking tr:last-child td { border-bottom: 0; }
+.ranking .name { display: flex; align-items: center; gap: 10px; }
+.ranking .rank { color: var(--muted); min-width: 1.5em; }
+.ranking .swatch { width: 18px; height: 4px; border-radius: 2px; flex: none; }
+.ranking tr.mine td { background: var(--highlight); font-weight: 700; }
+.ranking .more { color: var(--muted); }
+
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.8125rem; color: var(--muted); margin: 0 0 10px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend .box { width: 11px; height: 11px; border-radius: 2px; }
+
+.chart { position: relative; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-l); padding: 16px; }
+.chart-line { height: 380px; }
+.chart-bar { height: 500px; }
+@media (max-width: 600px) { .chart-line { height: 320px; } .chart-bar { height: 520px; } }
+
+.notes { font-size: 0.8125rem; color: var(--muted); margin: 10px 0 0; max-width: 80ch; }
+.about p { max-width: 68ch; margin: 0 0 12px; }
+code { font-size: 0.9em; background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: 1px 5px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

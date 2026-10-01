@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>What does getting around really cost?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <h1>What does getting around really cost?</h1>
+      <p class="lede">Every euro of owning a vehicle in the Netherlands, from purchase to resale, compared with public transport.</p>
+      <div class="plate" aria-live="polite">
+        <span class="plate-band" aria-hidden="true">NL</span>
+        <span class="plate-amount" id="heroAmount">€0</span>
+      </div>
+      <p class="hero-caption" id="heroCaption">Your Vmoto TC</p>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="controls" aria-label="Settings">
+      <fieldset>
+        <legend>Your use</legend>
+        <div class="field">
+          <label for="years">Years</label>
+          <output for="years" id="yearsOut">5</output>
+          <input type="range" id="years" min="1" max="10" step="1" value="5">
+        </div>
+        <div class="field">
+          <label for="km">Km per year</label>
+          <output for="km" id="kmOut">5,000</output>
+          <input type="range" id="km" min="1000" max="30000" step="500" value="5000">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Energy prices</legend>
+        <div class="field">
+          <label for="petrol">Petrol, per litre</label>
+          <output for="petrol" id="petrolOut">€2.45</output>
+          <input type="range" id="petrol" min="1.80" max="3.00" step="0.05" value="2.45">
+        </div>
+        <div class="field">
+          <label for="electricity">Electricity, per kWh</label>
+          <output for="electricity" id="electricityOut">€0.25</output>
+          <input type="range" id="electricity" min="0" max="0.60" step="0.01" value="0.25">
+        </div>
+        <label class="check"><input type="checkbox" id="freeCharging" checked> My scooter charges for free</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Public transport</legend>
+        <div class="field">
+          <label for="ptPlan">Ticket type</label>
+          <select id="ptPlan">
+            <option value="auto" selected>Cheapest for my use</option>
+            <option value="full">Pay per trip</option>
+            <option value="dv">Dal Voordeel (40% off-peak)</option>
+            <option value="dvr">Dal Vrij (unlimited off-peak)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="peak">Trips in rush hour</label>
+          <output for="peak" id="peakOut">30%</output>
+          <input type="range" id="peak" min="0" max="100" step="5" value="30">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Vmoto batteries</legend>
+        <div class="field">
+          <label for="batteryMode">Scenario</label>
+          <select id="batteryMode">
+            <option value="wear">Best case: only normal ageing</option>
+            <option value="expected" selected>Expected: average failure risk</option>
+            <option value="worst">Worst case: both packs die in year 3</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="packPrice">Price per pack</label>
+          <output for="packPrice" id="packPriceOut">€900</output>
+          <input type="range" id="packPrice" min="500" max="1500" step="50" value="900">
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Dad's ID.7 lease</legend>
+        <div class="field">
+          <label for="lease">Per month</label>
+          <output for="lease" id="leaseOut">€900</output>
+          <input type="range" id="lease" min="600" max="1200" step="10" value="900">
+        </div>
+      </fieldset>
+
+      <button type="button" id="reset" class="reset">Reset to defaults</button>
+    </aside>
+
+    <main>
+      <section aria-labelledby="rankTitle">
+        <h2 id="rankTitle">Ranking</h2>
+        <p class="sub" id="rankSub">True cost after selling, cheapest first.</p>
+        <div class="table-wrap">
+          <table class="ranking">
+            <thead>
+              <tr><th scope="col">Option</th><th scope="col">Total</th><th scope="col">Per month</th><th scope="col">Per km</th><th scope="col">Vs. your Vmoto</th></tr>
+            </thead>
+            <tbody id="rankBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="lineTitle">
+        <h2 id="lineTitle">Money spent over time</h2>
+        <p class="sub">The last point is after selling. Same colour means same model; dashes show the variant.</p>
+        <div class="legend" id="lineLegend"></div>
+        <div class="chart chart-line"><canvas id="lineChart" role="img" aria-label="Cumulative cost per option over time"></canvas></div>
+      </section>
+
+      <section aria-labelledby="barTitle">
+        <h2 id="barTitle">Where the money goes</h2>
+        <div class="legend" id="barLegend"></div>
+        <div class="chart chart-bar"><canvas id="barChart" role="img" aria-label="Cost breakdown per option by category"></canvas></div>
+        <p class="notes" id="notes"></p>
+      </section>
+
+      <section aria-labelledby="aboutTitle" class="about">
+        <h2 id="aboutTitle">How this is calculated</h2>
+        <p>Total cost is everything you pay (purchase, fees, insurance, road tax, fuel or electricity, upkeep, battery replacements, lease or tickets) minus what you get back when you sell. Resale values follow a curve where vehicles lose value fastest in the first years. Upkeep rises 5% a year as vehicles age. Public transport fares rise 4% a year.</p>
+        <p>All assumptions live in <code>data.js</code>. Insurance and resale values are estimates, so check your own quotes.</p>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <script src="data.js"></script>
+  <script src="model.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
