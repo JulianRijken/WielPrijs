@@ -1,0 +1,52 @@
+# Publishes the site to GitHub Pages after the tests pass.
+# Requires Settings → Pages → Source: "GitHub Actions".
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; a newer push waits instead of cancelling a running deploy.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+
+      # Only the site itself is published, not tests, tooling or docs.
+      - name: Collect site files
+        run: |
+          mkdir _site
+          cp -r index.html styles.css js _site/
+
+      # Fails when index.html links a local file that was not collected above.
+      - name: Check local links
+        run: |
+          grep -oE '(src|href)="[^":]+"' index.html | cut -d'"' -f2 | while read -r file; do
+            test -f "_site/$file" || { echo "Missing from the site: $file"; exit 1; }
+          done
+
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v5

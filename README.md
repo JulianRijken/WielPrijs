@@ -79,23 +79,23 @@ as you go wins.
 npm test
 ```
 
-## Publish on GitHub Pages
-
-The site is static and uses only relative paths, so it can be served from the
-repository root as it is:
-
-1. Push the repository to GitHub.
-2. In **Settings → Pages**, choose **Deploy from a branch**, branch `main`,
-   folder `/ (root)`.
-
-Every push to `main` then updates the site, and the **Test** workflow runs the
-tests on pushes and pull requests. Settings are kept per visitor in
-`localStorage` under keys starting with `wielprijs.`, so they do not clash with
-your other GitHub Pages projects on the same domain.
-
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to extend the app, and for the
 branch, commit and release workflow. Changes are listed in
 [CHANGELOG.md](CHANGELOG.md).
+
+## Publish on GitHub Pages
+
+The site runs at https://julianrijken.github.io/WielPrijs/.
+
+Every push to `main` runs the **Deploy** workflow: it runs the tests, collects
+the site files (`index.html`, `styles.css`, `js/`) and publishes them, so a
+failing test never goes live. It can also be started by hand from the Actions
+tab. This needs **Settings → Pages → Source** set to **GitHub Actions**. Pull
+requests run the same tests through the **Test** workflow.
+
+Settings are kept per visitor in `localStorage` under keys starting with
+`wielprijs.`, so they do not clash with other GitHub Pages projects on the same
+domain.
 
 ## Sources and caveats
 

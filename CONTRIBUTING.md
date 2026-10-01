@@ -23,6 +23,11 @@ Scripts are classic `<script>` tags that add to the `WielPrijs` namespace, so
 **load order matters**. A new script goes into `index.html` and, if it has no
 DOM code, into `test/load.js` as well.
 
+Only `index.html`, `styles.css` and `js/` are published. A new top-level file
+or folder the page needs (an icon, images) must be added to the "Collect site
+files" step in `.github/workflows/deploy.yml`; the deploy fails if `index.html`
+links a file that is missing from the site.
+
 Every user-facing text lives in `js/locales/en.js` and `js/locales/nl.js`. The
 tests fail when a key is missing from either one.
 
