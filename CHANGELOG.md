@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Dutch translation alongside English, with a language switch. The page
+  starts in the browser's language and remembers an explicit choice.
+- Amounts and numbers are formatted for the chosen language.
+
+### Changed
+
+- Default vehicle names no longer refer to specific people.
+
 ## [0.1.0] - 2026-10-01
 
 ### Added

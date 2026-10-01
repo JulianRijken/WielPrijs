@@ -32,7 +32,8 @@
     const B = WielPrijs.BATTERY;
     const Y = s.years;
     const plan = pickPlan(s);
-    const notes = new Set();
+    const notes = new Map(); // keyed by JSON so each note appears once
+    const note = (key, params = {}) => notes.set(JSON.stringify([key, params]), { key, params });
 
     const results = WielPrijs.VEHICLES.map((v) => {
       const b = emptyBreakdown();
@@ -55,7 +56,7 @@
         line.push(line[Y]);
         b.energy = energy * Y;
         b.lease = s.lease * 12 * Y;
-        if (Y > 5) notes.add("Beyond 5 years the lease renews at the same price.");
+        if (Y > 5) note("notes.leaseRenews");
         return { v, line, b, total: sum(Object.values(b)) };
       }
 
@@ -71,13 +72,13 @@
           const age = y - packStart;
           if (s.batteryMode === "worst" && y === 3) {
             bc += B.packs * s.packPrice; packStart = y; kmSincePack = 0;
-            notes.add("Both Vmoto battery packs replaced in year 3.");
+            note("notes.batteryWorst", { year: y });
           } else if (s.batteryMode === "expected" && age > B.warrantyYears) {
             bc += (age <= 5 ? B.failRateEarly : B.failRateLate) * B.packs * s.packPrice;
           }
           if (kmSincePack >= B.wearKm || y - packStart >= B.wearYears) {
             bc += B.packs * s.packPrice; packStart = y; kmSincePack = 0;
-            notes.add(`Vmoto packs worn out and replaced in year ${y}.`);
+            note("notes.batteryWorn", { year: y });
           }
         }
         batterySpend.push(bc);
@@ -98,11 +99,11 @@
       b.energy = energy * Y;
       b.upkeep = upkeep;
       b.battery = sum(batterySpend) - boost;
-      if (v.battery && Y <= B.warrantyYears) notes.add("Vmoto sold with battery warranty still running.");
+      if (v.battery && Y <= B.warrantyYears) note("notes.batteryWarranty");
       return { v, line, b, total: sum(Object.values(b)) };
     });
 
-    return { results, plan, notes: [...notes] };
+    return { results, plan, notes: [...notes.values()] };
   }
 
   WielPrijs.model = { compute, ptYear };
