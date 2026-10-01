@@ -2,7 +2,7 @@
 
 (function (app) {
   const { $, h, DASHES, dark, themeColor, lineSample } = app.ui;
-  const { t, localize, money, compactMoney, number } = app.i18n;
+  const { t, localize, money, compactMoney, number, percent } = app.i18n;
 
   // [light, dark] colour per breakdown category
   const CATEGORY_COLORS = {
@@ -91,7 +91,11 @@
   function renderRanking(settings, sorted, reference) {
     const months = settings.years * 12;
     const totalKm = settings.years * settings.kmPerYear;
-    $("rankSub").textContent = t("ranking.sub", { years: t("units.years", { count: settings.years }) });
+    $("rankSub").textContent = t(settings.view === "today" ? "ranking.subToday" : "ranking.subPaid", {
+      years: t("units.years", { count: settings.years }),
+      inflation: percent(settings.inflation / 100, 1),
+      interest: percent(settings.interest / 100, 1),
+    });
     $("rankVersus").textContent = reference ? t("ranking.versus", { vehicle: localize(reference.vehicle.name) }) : "";
 
     if (sorted.length === 0) {

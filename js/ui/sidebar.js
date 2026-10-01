@@ -10,8 +10,7 @@
     percent: (value) => percent(value / 100, 1),
   };
 
-  function slider(field, value, onChange) {
-    const id = `setting-${field.key}`;
+  function slider(id, field, value, onChange) {
     const format = FORMATS[field.format];
     const output = h("output", { for: id }, format(value));
     const input = h("input", {
@@ -21,16 +20,30 @@
         onChange(field.key, Number(input.value));
       },
     });
-    return h("div", { class: "field" }, h("label", { for: id }, t(`settings.${field.key}`)), output, input);
+    return [output, input];
   }
 
-  // Builds the sliders, grouped in fieldsets. Call again when the language changes.
+  function select(id, field, value, onChange) {
+    return h("select", { id, onchange: (e) => onChange(field.key, e.target.value) },
+      field.options.map((option) =>
+        h("option", { value: option, selected: option === value }, t(`settings.options.${field.key}.${option}`))));
+  }
+
+  function control(field, value, onChange) {
+    const id = `setting-${field.key}`;
+    return h("div", { class: "field" },
+      h("label", { for: id }, t(`settings.${field.key}`)),
+      field.options ? select(id, field, value, onChange) : slider(id, field, value, onChange),
+      field.hint && h("small", { class: "hint" }, t(`settings.hints.${field.key}`)));
+  }
+
+  // Builds the controls, grouped in fieldsets. Call again when the language changes.
   function renderSettings(settings, onChange) {
     const groups = Map.groupBy(app.settings.FIELDS, (field) => field.group);
     $("settings").replaceChildren(...[...groups].map(([group, fields]) =>
       h("fieldset", {},
         h("legend", {}, t(`settings.groups.${group}`)),
-        fields.map((field) => slider(field, settings[field.key], onChange)))));
+        fields.map((field) => control(field, settings[field.key], onChange)))));
   }
 
   // handlers: onReference(id), onToggle(id, shown), onEdit(id)
