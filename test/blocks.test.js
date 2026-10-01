@@ -66,3 +66,15 @@ test("transit on auto picks the cheapest plan", () => {
   const light = run([{ type: "transit", plan: "auto" }], { ...SETTINGS, kmPerYear: 100 });
   assert.equal(light.notes[0].params.plan.key, "blocks.transit.options.plan.full");
 });
+
+test("sweep returns totals per vehicle across the values of a setting", () => {
+  const vehicles = [{ id: "a", blocks: [{ type: "energy", source: "petrol", per100km: 5 }] }, { id: "b", blocks: [] }];
+  const totals = app.model.sweep(SETTINGS, vehicles, "kmPerYear", [1000, 2000]);
+  assert.deepEqual(totals, [[4 * 10 * 5 * 2, 4 * 20 * 5 * 2], [0, 0]]);
+});
+
+test("crossings finds where a difference changes sign", () => {
+  assert.deepEqual(app.model.crossings([0, 10, 20], [-10, 10, 30]), [{ at: 5, rising: true }]);
+  assert.deepEqual(app.model.crossings([0, 10], [4, -6]), [{ at: 4, rising: false }]);
+  assert.deepEqual(app.model.crossings([0, 10, 20], [1, 2, 3]), []);
+});
