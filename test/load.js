@@ -22,6 +22,7 @@ const SCRIPTS = [
   "js/model.js",
   "js/defaults.js",
   "js/templates.js",
+  "js/state.js",
 ];
 
 for (const file of SCRIPTS) require(path.join(__dirname, "..", file));
