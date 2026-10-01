@@ -12,102 +12,112 @@
 <body>
   <header class="hero">
     <div class="hero-inner">
-      <h1>What does getting around really cost?</h1>
-      <p class="lede">Every euro of owning a vehicle in the Netherlands, from purchase to resale, compared with public transport.</p>
+      <div class="lang-switch" role="group" data-i18n-attr="aria-label: language.label">
+        <button type="button" data-lang="nl" lang="nl" aria-label="Nederlands">NL</button>
+        <button type="button" data-lang="en" lang="en" aria-label="English">EN</button>
+      </div>
+      <h1 data-i18n="page.title">What does getting around really cost?</h1>
+      <p class="lede" data-i18n="page.lede">Every euro of owning a vehicle in the Netherlands, from purchase to resale, compared with public transport.</p>
       <div class="plate" aria-live="polite">
         <span class="plate-band" aria-hidden="true">NL</span>
         <span class="plate-amount" id="heroAmount">€0</span>
       </div>
-      <p class="hero-caption" id="heroCaption">Your Vmoto TC</p>
+      <p class="hero-caption" id="heroCaption"></p>
     </div>
   </header>
 
   <div class="layout">
-    <aside class="controls" aria-label="Settings">
+    <aside class="controls" data-i18n-attr="aria-label: controls.label">
       <fieldset>
-        <legend>Your use</legend>
+        <legend data-i18n="controls.use">Your use</legend>
         <div class="field">
-          <label for="years">Years</label>
+          <label for="years" data-i18n="controls.years">Years</label>
           <output for="years" id="yearsOut">5</output>
           <input type="range" id="years" min="1" max="10" step="1" value="5">
         </div>
         <div class="field">
-          <label for="km">Km per year</label>
+          <label for="km" data-i18n="controls.km">Km per year</label>
           <output for="km" id="kmOut">5,000</output>
           <input type="range" id="km" min="1000" max="30000" step="500" value="5000">
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>Energy prices</legend>
+        <legend data-i18n="controls.energy">Energy prices</legend>
         <div class="field">
-          <label for="petrol">Petrol, per litre</label>
+          <label for="petrol" data-i18n="controls.petrol">Petrol, per litre</label>
           <output for="petrol" id="petrolOut">€2.45</output>
           <input type="range" id="petrol" min="1.80" max="3.00" step="0.05" value="2.45">
         </div>
         <div class="field">
-          <label for="electricity">Electricity, per kWh</label>
+          <label for="electricity" data-i18n="controls.electricity">Electricity, per kWh</label>
           <output for="electricity" id="electricityOut">€0.25</output>
           <input type="range" id="electricity" min="0" max="0.60" step="0.01" value="0.25">
         </div>
-        <label class="check"><input type="checkbox" id="freeCharging" checked> My scooter charges for free</label>
+        <label class="check"><input type="checkbox" id="freeCharging" checked> <span data-i18n="controls.freeCharging">My scooter charges for free</span></label>
       </fieldset>
 
       <fieldset>
-        <legend>Public transport</legend>
+        <legend data-i18n="controls.transit">Public transport</legend>
         <div class="field">
-          <label for="ptPlan">Ticket type</label>
+          <label for="ptPlan" data-i18n="controls.ticket">Ticket type</label>
           <select id="ptPlan">
-            <option value="auto" selected>Cheapest for my use</option>
-            <option value="full">Pay per trip</option>
-            <option value="dv">Dal Voordeel (40% off-peak)</option>
-            <option value="dvr">Dal Vrij (unlimited off-peak)</option>
+            <option value="auto" selected data-i18n="plans.auto">Cheapest for my use</option>
+            <option value="full" data-i18n="plans.full">Pay per trip</option>
+            <option value="dv" data-i18n="plans.dv">Dal Voordeel (40% off-peak)</option>
+            <option value="dvr" data-i18n="plans.dvr">Dal Vrij (unlimited off-peak)</option>
           </select>
         </div>
         <div class="field">
-          <label for="peak">Trips in rush hour</label>
+          <label for="peak" data-i18n="controls.peak">Trips in rush hour</label>
           <output for="peak" id="peakOut">30%</output>
           <input type="range" id="peak" min="0" max="100" step="5" value="30">
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>Vmoto batteries</legend>
+        <legend data-i18n="controls.battery">Vmoto batteries</legend>
         <div class="field">
-          <label for="batteryMode">Scenario</label>
+          <label for="batteryMode" data-i18n="controls.scenario">Scenario</label>
           <select id="batteryMode">
-            <option value="wear">Best case: only normal ageing</option>
-            <option value="expected" selected>Expected: average failure risk</option>
-            <option value="worst">Worst case: both packs die in year 3</option>
+            <option value="wear" data-i18n="controls.scenarioWear">Best case: only normal ageing</option>
+            <option value="expected" selected data-i18n="controls.scenarioExpected">Expected: average failure risk</option>
+            <option value="worst" data-i18n="controls.scenarioWorst">Worst case: both packs die in year 3</option>
           </select>
         </div>
         <div class="field">
-          <label for="packPrice">Price per pack</label>
+          <label for="packPrice" data-i18n="controls.packPrice">Price per pack</label>
           <output for="packPrice" id="packPriceOut">€900</output>
           <input type="range" id="packPrice" min="500" max="1500" step="50" value="900">
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>Dad's ID.7 lease</legend>
+        <legend data-i18n="controls.lease">VW ID.7 private lease</legend>
         <div class="field">
-          <label for="lease">Per month</label>
+          <label for="lease" data-i18n="controls.perMonth">Per month</label>
           <output for="lease" id="leaseOut">€900</output>
           <input type="range" id="lease" min="600" max="1200" step="10" value="900">
         </div>
       </fieldset>
 
-      <button type="button" id="reset" class="reset">Reset to defaults</button>
+      <button type="button" id="reset" class="reset" data-i18n="controls.reset">Reset to defaults</button>
     </aside>
 
     <main>
       <section aria-labelledby="rankTitle">
-        <h2 id="rankTitle">Ranking</h2>
-        <p class="sub" id="rankSub">True cost after selling, cheapest first.</p>
+        <h2 id="rankTitle" data-i18n="ranking.title">Ranking</h2>
+        <p class="sub" id="rankSub"></p>
         <div class="table-wrap">
           <table class="ranking">
             <thead>
-              <tr><th scope="col">Option</th><th scope="col">Total</th><th scope="col">Per month</th><th scope="col">Per km</th><th scope="col">Vs. your Vmoto</th></tr>
+              <tr>
+                <th scope="col" data-i18n="ranking.option">Option</th>
+                <th scope="col" data-i18n="ranking.total">Total</th>
+                <th scope="col" data-i18n="ranking.perMonth">Per month</th>
+                <th scope="col" data-i18n="ranking.perKm">Per km</th>
+                <th scope="col" id="rankVersus"></th>
+              </tr>
             </thead>
             <tbody id="rankBody"></tbody>
           </table>
@@ -115,29 +125,33 @@
       </section>
 
       <section aria-labelledby="lineTitle">
-        <h2 id="lineTitle">Money spent over time</h2>
-        <p class="sub">The last point is after selling. Same colour means same model; dashes show the variant.</p>
+        <h2 id="lineTitle" data-i18n="lineChart.title">Money spent over time</h2>
+        <p class="sub" data-i18n="lineChart.sub">The last point is after selling.</p>
         <div class="legend" id="lineLegend"></div>
-        <div class="chart chart-line"><canvas id="lineChart" role="img" aria-label="Cumulative cost per option over time"></canvas></div>
+        <div class="chart chart-line"><canvas id="lineChart" role="img" data-i18n-attr="aria-label: lineChart.label"></canvas></div>
       </section>
 
       <section aria-labelledby="barTitle">
-        <h2 id="barTitle">Where the money goes</h2>
+        <h2 id="barTitle" data-i18n="barChart.title">Where the money goes</h2>
         <div class="legend" id="barLegend"></div>
-        <div class="chart chart-bar"><canvas id="barChart" role="img" aria-label="Cost breakdown per option by category"></canvas></div>
+        <div class="chart chart-bar"><canvas id="barChart" role="img" data-i18n-attr="aria-label: barChart.label"></canvas></div>
         <p class="notes" id="notes"></p>
       </section>
 
       <section aria-labelledby="aboutTitle" class="about">
-        <h2 id="aboutTitle">How this is calculated</h2>
-        <p>Total cost is everything you pay (purchase, fees, insurance, road tax, fuel or electricity, upkeep, battery replacements, lease or tickets) minus what you get back when you sell. Resale values follow a curve where vehicles lose value fastest in the first years. Upkeep rises 5% a year as vehicles age. Public transport fares rise 4% a year.</p>
-        <p>All assumptions live in <code>data.js</code>. Insurance and resale values are estimates, so check your own quotes.</p>
+        <h2 id="aboutTitle" data-i18n="about.title">How this is calculated</h2>
+        <p data-i18n="about.method"></p>
+        <p data-i18n="about.caveat"></p>
       </section>
     </main>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
   <script src="js/wielprijs.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/locales/en.js"></script>
+  <script src="js/locales/nl.js"></script>
+  <script src="js/store.js"></script>
   <script src="js/data.js"></script>
   <script src="js/model.js"></script>
   <script src="js/app.js"></script>
