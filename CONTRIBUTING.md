@@ -103,3 +103,7 @@ Merges with only `refactor`, `test`, `docs` or `chore` changes wait under
 `[Unreleased]` for the next release.
 
 Version 1.0.0 will be the first public release on GitHub Pages.
+
+Once the repository is on GitHub, push the tags too (`git push --follow-tags`),
+and consider protecting `main` so changes arrive through pull requests with
+the Test workflow passing.
