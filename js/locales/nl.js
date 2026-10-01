@@ -21,7 +21,6 @@ WielPrijs.i18n.register("nl", {
     petrol: "Benzine, per liter",
     diesel: "Diesel, per liter",
     electricity: "Stroom, per kWh",
-    reset: "Standaardwaarden herstellen",
   },
   vehicles: {
     title: "Voertuigen",
@@ -29,6 +28,17 @@ WielPrijs.i18n.register("nl", {
     add: "Voertuig toevoegen",
     edit: "Bewerk",
     editLabel: "{vehicle} bewerken",
+  },
+  data: {
+    title: "Jouw gegevens",
+    saved: "Wijzigingen worden in deze browser bewaard. Exporteer ze voor een kopie of om ze naar een ander apparaat te halen.",
+    export: "Exporteren",
+    import: "Importeren",
+    importConfirm: { one: "Alles vervangen door het geïmporteerde bestand ({count} voertuig)?", other: "Alles vervangen door het geïmporteerde bestand ({count} voertuigen)?" },
+    importError: "Dit bestand kon niet worden gelezen. Is het een export van WielPrijs?",
+    reset: "Standaardwaarden herstellen",
+    resetConfirm: "Je wijzigingen weggooien en terug naar de standaardvergelijking?",
+    privacy: "Je instellingen worden alleen in deze browser bewaard. Geen cookies, er wordt niets verstuurd.",
   },
   templates: {
     title: "Voertuig toevoegen",
