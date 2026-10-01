@@ -19,10 +19,32 @@
   const categoryColor = (category) => CATEGORY_COLORS[category][dark ? 1 : 0];
 
   let lineChart;
+  let distanceChart;
   let barChart;
 
+  const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+  // Draws a dashed vertical line at options.value on the x axis.
+  const markerPlugin = {
+    id: "marker",
+    afterDatasetsDraw(chart, _args, options) {
+      if (options.value == null) return;
+      const x = chart.scales.x.getPixelForValue(options.value);
+      const { top, bottom } = chart.chartArea;
+      const ctx = chart.ctx;
+      ctx.save();
+      ctx.strokeStyle = options.color;
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(x, top);
+      ctx.lineTo(x, bottom);
+      ctx.stroke();
+      ctx.restore();
+    },
+  };
+
   function init() {
-    const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
     const animation = matchMedia("(prefers-reduced-motion: reduce)").matches ? false : { duration: 250 };
     const grid = { color: css("--grid") };
 
@@ -45,6 +67,32 @@
         },
         scales: {
           x: { grid: { display: false }, ticks: { autoSkip: false } },
+          y: { grid, ticks: { callback: (value) => compactMoney(value) } },
+        },
+      },
+    });
+
+    distanceChart = new Chart($("distanceChart"), {
+      type: "line",
+      data: { datasets: [] },
+      plugins: [markerPlugin],
+      options: {
+        responsive: true, maintainAspectRatio: false, animation: false,
+        interaction: { mode: "index", intersect: false },
+        elements: { point: { radius: 0, hoverRadius: 4 } },
+        plugins: {
+          legend: { display: false },
+          marker: { color: css("--muted") },
+          tooltip: {
+            itemSort: (a, b) => b.parsed.y - a.parsed.y,
+            callbacks: {
+              title: (items) => `${number(items[0].parsed.x)} km`,
+              label: (c) => `${c.dataset.label}: ${money(c.parsed.y)}`,
+            },
+          },
+        },
+        scales: {
+          x: { type: "linear", grid: { display: false }, title: { display: true }, ticks: { callback: (value) => number(value) } },
           y: { grid, ticks: { callback: (value) => compactMoney(value) } },
         },
       },
@@ -116,27 +164,63 @@
     }));
   }
 
-  function renderLineChart(settings, results, reference) {
-    $("lineLegend").replaceChildren(...results.map((r) =>
-      h("span", {}, lineSample(r.vehicle.color, r.vehicle.line), localize(r.vehicle.name))));
+  const vehicleLegend = (results) => results.map((r) =>
+    h("span", {}, lineSample(r.vehicle.color, r.vehicle.line), localize(r.vehicle.name)));
 
+  // A vehicle's line in a chart: its colour and dashes, thicker for the reference.
+  function vehicleDataset(result, reference, data) {
+    const color = themeColor(result.vehicle.color);
+    return {
+      label: localize(result.vehicle.name),
+      data,
+      borderColor: color, backgroundColor: color,
+      borderDash: DASHES[result.vehicle.line] ?? [],
+      borderWidth: result === reference ? 3 : 2,
+      pointRadius: 2.5, tension: 0,
+    };
+  }
+
+  function renderLineChart(settings, results, reference) {
+    $("lineLegend").replaceChildren(...vehicleLegend(results));
     lineChart.data.labels = [
       t("lineChart.start"),
       ...Array.from({ length: settings.years }, (_, i) => t("lineChart.year", { year: i + 1 })),
       t("lineChart.end"),
     ];
-    lineChart.data.datasets = results.map((r) => {
-      const color = themeColor(r.vehicle.color);
-      return {
-        label: localize(r.vehicle.name),
-        data: r.line.map(Math.round),
-        borderColor: color, backgroundColor: color,
-        borderDash: DASHES[r.vehicle.line] ?? [],
-        borderWidth: r === reference ? 3 : 2,
-        pointRadius: 2.5, tension: 0,
-      };
-    });
+    lineChart.data.datasets = results.map((r) => vehicleDataset(r, reference, r.line.map(Math.round)));
     lineChart.update();
+  }
+
+  // Total cost across the whole range of the km slider, and where options break even.
+  function renderDistanceChart(settings, results, reference) {
+    const range = app.settings.FIELDS.find((field) => field.key === "kmPerYear");
+    const kms = [];
+    for (let km = range.min; km <= range.max; km += range.step) kms.push(km);
+    const totals = app.model.sweep(settings, results.map((r) => r.vehicle), "kmPerYear", kms);
+
+    $("distanceSub").textContent = t("distanceChart.sub", { years: t("units.years", { count: settings.years }) });
+    $("distanceLegend").replaceChildren(...vehicleLegend(results));
+    distanceChart.data.datasets = results.map((r, i) => ({
+      ...vehicleDataset(r, reference, kms.map((x, j) => ({ x, y: Math.round(totals[i][j]) }))),
+      pointRadius: 0,
+    }));
+    Object.assign(distanceChart.options.scales.x, { min: range.min, max: range.max });
+    distanceChart.options.scales.x.title.text = t("distanceChart.axis");
+    distanceChart.options.plugins.marker.value = settings.kmPerYear;
+    distanceChart.update();
+
+    const ref = results.indexOf(reference);
+    const breakEven = ref < 0 ? [] : results.flatMap((r, i) => {
+      if (i === ref) return [];
+      const diffs = totals[i].map((total, j) => total - totals[ref][j]);
+      return app.model.crossings(kms, diffs).map((crossing) =>
+        t(crossing.rising ? "distanceChart.cheaperBelow" : "distanceChart.cheaperAbove", {
+          vehicle: localize(r.vehicle.name),
+          reference: localize(reference.vehicle.name),
+          km: number(Math.round(crossing.at / 100) * 100),
+        }));
+    });
+    $("breakEven").replaceChildren(...breakEven.map((text) => h("li", {}, text)));
   }
 
   function renderBarChart(sorted) {
@@ -151,7 +235,7 @@
       label: t(`categories.${c}`),
       data: sorted.map((r) => Math.round(r.breakdown[c] ?? 0)),
       backgroundColor: categoryColor(c),
-      borderColor: getComputedStyle(document.documentElement).getPropertyValue("--surface"),
+      borderColor: css("--surface"),
       borderWidth: 1, barThickness: 22,
     }));
     barChart.$totals = sorted.map((r) => r.total);
@@ -176,6 +260,7 @@
     renderHero(settings, reference);
     renderRanking(settings, sorted, reference);
     renderLineChart(settings, results, reference);
+    renderDistanceChart(settings, results, reference);
     renderBarChart(sorted);
     renderNotes(results);
   }

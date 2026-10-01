@@ -108,6 +108,14 @@ WielPrijs.i18n.register("nl", {
     year: "Jaar {year}",
     end: "Verkocht",
   },
+  distanceChart: {
+    title: "Kosten per afstand",
+    sub: "Totaal over {years} bij elke afstand per jaar. Waar lijnen kruisen, wisselt de goedkoopste optie; de stippellijn is jouw afstand.",
+    label: "Totale kosten per optie per aantal km per jaar",
+    axis: "km per jaar",
+    cheaperBelow: "{vehicle} is goedkoper dan {reference} onder ongeveer {km} km per jaar.",
+    cheaperAbove: "{vehicle} is goedkoper dan {reference} boven ongeveer {km} km per jaar.",
+  },
   barChart: {
     title: "Waar het geld heen gaat",
     label: "Kostenopbouw per optie per categorie",

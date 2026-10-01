@@ -108,6 +108,14 @@ WielPrijs.i18n.register("en", {
     year: "Year {year}",
     end: "Sold",
   },
+  distanceChart: {
+    title: "Cost by distance",
+    sub: "Total over {years} at every distance per year. Where lines cross, the cheapest option changes; the dashed line is your distance.",
+    label: "Total cost per option by km per year",
+    axis: "km per year",
+    cheaperBelow: "{vehicle} is cheaper than {reference} below about {km} km a year.",
+    cheaperAbove: "{vehicle} is cheaper than {reference} above about {km} km a year.",
+  },
   barChart: {
     title: "Where the money goes",
     label: "Cost breakdown per option by category",

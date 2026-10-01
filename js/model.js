@@ -70,5 +70,24 @@
     return vehicles.map((vehicle) => computeVehicle(vehicle, ctx, discount));
   }
 
-  app.model = { compute, sum };
+  // Totals while one setting varies: sweep(settings, vehicles, "kmPerYear", [1000, 2000, ...]).
+  // Returns one array of totals per vehicle, in the order of values.
+  function sweep(settings, vehicles, key, values) {
+    const runs = values.map((value) => compute({ ...settings, [key]: value }, vehicles));
+    return vehicles.map((_, i) => runs.map((run) => run[i].total));
+  }
+
+  // Where a sampled difference changes sign, interpolated linearly between samples.
+  // Returns [{ at, rising }]; rising means it goes from negative to positive as x grows.
+  function crossings(xs, diffs) {
+    const result = [];
+    for (let i = 1; i < xs.length; i++) {
+      const [a, b] = [diffs[i - 1], diffs[i]];
+      if (a < 0 === b < 0) continue;
+      result.push({ at: xs[i - 1] + ((xs[i] - xs[i - 1]) * a) / (a - b), rising: a < 0 });
+    }
+    return result;
+  }
+
+  app.model = { compute, sweep, crossings, sum };
 })(WielPrijs);
