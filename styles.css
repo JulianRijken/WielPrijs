@@ -202,6 +202,15 @@ input[type="color"] {
 .check { display: flex; gap: 8px; align-items: center; font-size: 0.875rem; color: var(--muted); }
 .check input { accent-color: var(--sign); width: 16px; height: 16px; }
 
+/* Touch screens: iOS Safari zooms into fields whose text is under 16px, and
+   fingers need bigger targets than a mouse pointer. */
+@media (pointer: coarse) {
+  select, input[type="text"], input[type="number"] { font-size: 16px; }
+  .check input { width: 20px; height: 20px; }
+  .link-button { padding: 8px; }
+  .lang-switch button { padding: 8px 12px; }
+}
+
 .button {
   font: inherit;
   font-size: 0.875rem;
@@ -308,6 +317,9 @@ code { font-size: 0.9em; background: var(--surface); border: 1px solid var(--rul
   .dialog-header { padding: 16px 16px 0; }
   .dialog-body { padding: 12px 16px; }
   .dialog-footer { padding: 12px 16px; }
+  /* Two by two: Delete and Save as copy, then Cancel and Save. */
+  #editor .dialog-footer { display: grid; grid-template-columns: 1fr 1fr; }
+  #editor .dialog-footer .spacer { display: none; }
 }
 
 .template-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
