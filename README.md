@@ -32,7 +32,7 @@ The model only adds blocks up, so any mix is possible.
 | Block | Adds |
 |---|---|
 | Purchase and resale | Price and fees up front; the resale value comes back at the end, following a depreciation curve and adjusted for mileage |
-| Insurance | Premium per year |
+| Insurance | Premium per year, optionally dropping with a no-claim discount every claim-free year |
 | Road tax (MRB) | Tax per year |
 | Fuel or electricity | Consumption × the global energy price, or the vehicle's own price (0 for free charging) |
 | Maintenance and repairs | A fixed amount per year that grows with age, plus an amount per km |
@@ -40,6 +40,19 @@ The model only adds blocks up, so any mix is possible.
 | Lease | An all-in monthly price |
 | Public transport | Fare per km with the NS off-peak subscriptions; can pick the cheapest one automatically |
 | Extra cost | Anything else, once or every year; negative amounts are income |
+
+### Inflation and paying now versus later
+
+Prices rise with a global inflation rate; any cost can set its own yearly
+price change instead (public transport fares, cheaper battery packs). A lease
+stays fixed for its contract. Used-vehicle prices follow inflation too, which
+is why owning something protects against it.
+
+Totals can be shown as **euros as paid** or as **value today**: every future
+payment discounted by the interest your savings would earn until then. That
+makes a big payment now and many payments later comparable. When prices rise
+faster than savings grow, buying up front wins; when savings earn more, paying
+as you go wins.
 
 ## Files
 

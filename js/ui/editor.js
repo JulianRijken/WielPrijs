@@ -109,6 +109,7 @@
     const id = `block-${index}-${field.key}`;
     const key = `blocks.${block.type}`;
     const value = params[field.key];
+    const hint = app.blocks.hintKey(block.type, field);
     let input;
 
     if (field.kind === "select") {
@@ -123,19 +124,19 @@
       input = h("input", {
         id, type: "number", inputmode: "decimal", value: value ?? "",
         step: field.step ?? DEFAULT_STEP[field.kind],
-        placeholder: field.optional ? "–" : null,
+        placeholder: field.placeholder ? t(field.placeholder) : field.optional ? "–" : null,
         oninput: () => (block[field.key] = parseNumber(input.value, field)),
       });
     }
 
     const unit = unitText(field, params);
     return h("div", { class: "field" },
-      h("label", { for: id }, t(`${key}.fields.${field.key}`)),
+      h("label", { for: id }, t(app.blocks.labelKey(block.type, field))),
       h("div", { class: "input-group" },
         field.kind === "money" && h("span", { class: "affix" }, "€"),
         input,
         unit && h("span", { class: "affix" }, unit)),
-      field.hint && h("small", { class: "hint" }, t(`${key}.hints.${field.key}`)));
+      hint && h("small", { class: "hint" }, t(hint)));
   }
 
   function addBlock(type) {

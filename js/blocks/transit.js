@@ -14,11 +14,11 @@
     offPeakFree: (p) => ({ fee: p.offPeakFreeFee * 12, discount: 1 }),
   };
 
-  function yearCost(p, plan, km, year) {
+  // Cost of one year at today's fares.
+  function yearCost(p, plan, km) {
     const { fee, discount } = PLANS[plan](p);
     const offPeak = 1 - p.peakShare / 100;
-    const growth = Math.pow(1 + p.fareRise / 100, year - 1);
-    return growth * (fee + km * p.farePerKm * (1 - discount * (p.discountableShare / 100) * offPeak));
+    return fee + km * p.farePerKm * (1 - discount * (p.discountableShare / 100) * offPeak);
   }
 
   app.blocks.register({
@@ -28,14 +28,14 @@
       { key: "farePerKm", kind: "money", default: 0.28, step: 0.01, unit: "perKm", hint: true },
       { key: "plan", kind: "select", options: ["auto", ...Object.keys(PLANS)], default: "auto" },
       { key: "peakShare", kind: "percent", default: 30 },
-      { key: "fareRise", kind: "percent", default: 4, step: 0.1, advanced: true },
+      { ...app.blocks.PRICE_CHANGE, default: 4, label: "blocks.transit.fields.priceChange" },
       { key: "discountableShare", kind: "percent", default: 75, advanced: true, hint: true },
       { key: "offPeakDiscount", kind: "percent", default: 40, advanced: true },
       { key: "offPeakDiscountFee", kind: "money", default: 6.5, step: 0.01, unit: "perMonth", advanced: true },
       { key: "offPeakFreeFee", kind: "money", default: 127.95, step: 0.01, unit: "perMonth", advanced: true },
     ],
     compute(p, ctx) {
-      const costs = (plan) => ctx.eachYear((year) => yearCost(p, plan, ctx.kmPerYear, year));
+      const costs = (plan) => ctx.eachYear((year) => yearCost(p, plan, ctx.kmPerYear) * ctx.priceFactor(year, p.priceChange));
       if (p.plan !== "auto") return { yearly: costs(p.plan) };
 
       const total = (plan) => costs(plan).reduce((sum, x) => sum + x, 0);

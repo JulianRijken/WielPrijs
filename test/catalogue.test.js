@@ -17,8 +17,9 @@ test("every block type, field, hint and option has a label", () => {
     return [
       `${base}.title`,
       `${base}.description`,
-      ...type.fields.map((f) => `${base}.fields.${f.key}`),
-      ...type.fields.filter((f) => f.hint).map((f) => `${base}.hints.${f.key}`),
+      ...type.fields.map((f) => app.blocks.labelKey(type.type, f)),
+      ...type.fields.filter((f) => f.hint).map((f) => app.blocks.hintKey(type.type, f)),
+      ...type.fields.filter((f) => f.placeholder).map((f) => f.placeholder),
       ...type.fields.flatMap((f) => (f.options ?? []).map((o) => `${base}.options.${f.key}.${o}`)),
       ...type.fields.filter((f) => typeof f.unit === "string").map((f) => `units.${f.unit}`),
     ];
@@ -30,6 +31,8 @@ test("every category, setting and template has a label", () => {
   const keys = [
     ...app.blocks.CATEGORIES.map((c) => `categories.${c}`),
     ...app.settings.FIELDS.flatMap((f) => [`settings.${f.key}`, `settings.groups.${f.group}`]),
+    ...app.settings.FIELDS.filter((f) => f.hint).map((f) => `settings.hints.${f.key}`),
+    ...app.settings.FIELDS.flatMap((f) => (f.options ?? []).map((o) => `settings.options.${f.key}.${o}`)),
     ...app.templates.map((tpl) => `templates.${tpl.id}`),
   ];
   assert.deepEqual(missing(keys), []);
@@ -57,7 +60,10 @@ function checkVehicleBlocks(blocks, where) {
 
 test("defaults are valid", () => {
   const { settings, vehicles } = app.defaults;
-  for (const field of app.settings.FIELDS) assert.equal(typeof settings[field.key], "number", field.key);
+  for (const field of app.settings.FIELDS) {
+    if (field.options) assert.ok(field.options.includes(settings[field.key]), field.key);
+    else assert.equal(typeof settings[field.key], "number", field.key);
+  }
   assert.equal(new Set(vehicles.map((v) => v.id)).size, vehicles.length, "vehicle ids are unique");
   assert.ok(vehicles.some((v) => v.id === settings.reference), "reference vehicle exists");
   for (const v of vehicles) {

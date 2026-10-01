@@ -18,10 +18,13 @@
     return structuredClone(app.defaults);
   }
 
-  // Known settings with the right type are kept; the rest come from the defaults.
+  // Known settings with the right type (and a known option, for a select) are kept;
+  // the rest come from the defaults.
   function normalizeSettings(settings) {
     const result = structuredClone(app.defaults.settings);
     for (const [key, value] of Object.entries(isObject(settings) ? settings : {})) {
+      const options = app.settings.FIELDS.find((field) => field.key === key)?.options;
+      if (options && !options.includes(value)) continue;
       if (key in result && typeof value === typeof result[key]) result[key] = value;
     }
     return result;

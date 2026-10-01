@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Inflation: running costs, battery packs and used-vehicle prices rise every
+  year. Any cost can set its own yearly price change instead.
+- Interest on savings, and a choice to show amounts as euros paid or as value
+  today, to compare paying up front with paying as you go.
+- No-claim discount on insurance, growing every claim-free year up to a
+  maximum.
+- A lease contract renews at the prices of that time.
+
+### Changed
+
+- The default view shows value today, with 2.5% inflation and 2% interest.
+- The public transport fare rise is now the block's price change; leave it
+  empty to follow inflation.
+
 ## [0.4.0] - 2026-10-01
 
 ### Added
