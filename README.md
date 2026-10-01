@@ -20,6 +20,8 @@ npm start
 - **Edit** a vehicle to change any of its costs, or **Add vehicle** to start
   from a template (scooter, motorbike, car, electric car, lease, public
   transport or empty).
+- **Cost by distance** shows every option across all distances, and from how
+  many km a year one becomes cheaper than another.
 - Everything is saved in your browser. **Export** and **Import** move a setup
   between devices or people.
 
