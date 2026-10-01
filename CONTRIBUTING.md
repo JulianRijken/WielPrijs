@@ -17,6 +17,33 @@ npm test    # runs the unit tests with Node's built-in test runner
 
 Tests need Node 22 or newer. There are no dependencies to install.
 
+## Extending
+
+Scripts are classic `<script>` tags that add to the `WielPrijs` namespace, so
+**load order matters**. A new script goes into `index.html` and, if it has no
+DOM code, into `test/load.js` as well.
+
+Every user-facing text lives in `js/locales/en.js` and `js/locales/nl.js`. The
+tests fail when a key is missing from either one.
+
+**A new kind of cost.** Add `js/blocks/<name>.js` that calls
+`WielPrijs.blocks.register({ type, category, fields, compute })`; the format is
+documented at the top of `js/blocks.js`. Then add its labels under
+`blocks.<type>` in both dictionaries. The editor builds its form from `fields`,
+so no UI code is needed.
+
+**A new energy source** (LPG, hydrogen): add it to `ENERGY_SOURCES` and a price
+slider to `FIELDS` in `js/settings.js`, plus labels.
+
+**A new global setting**: add it to `FIELDS` in `js/settings.js`, to the
+`settings` in `js/defaults.js`, and labels under `settings`. The model passes
+settings to blocks through the context built in `js/model.js`.
+
+**A new language**: copy `js/locales/en.js`, translate it, add a script tag and
+a button in the language switch, and its Intl locale in `js/i18n.js`.
+
+**Different defaults**: edit `js/defaults.js`.
+
 ## Branches
 
 `main` is always releasable; it is what GitHub Pages serves.
