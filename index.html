@@ -17,7 +17,7 @@
         <button type="button" data-lang="en" lang="en" aria-label="English">EN</button>
       </div>
       <h1 data-i18n="page.title">What does getting around really cost?</h1>
-      <p class="lede" data-i18n="page.lede">Every euro of owning a vehicle in the Netherlands, from purchase to resale, compared with public transport.</p>
+      <p class="lede" data-i18n="page.lede"></p>
       <div class="plate" aria-live="polite">
         <span class="plate-band" aria-hidden="true">NL</span>
         <span class="plate-amount" id="heroAmount">€0</span>
@@ -27,81 +27,20 @@
   </header>
 
   <div class="layout">
-    <aside class="controls" data-i18n-attr="aria-label: controls.label">
-      <fieldset>
-        <legend data-i18n="controls.use">Your use</legend>
-        <div class="field">
-          <label for="years" data-i18n="controls.years">Years</label>
-          <output for="years" id="yearsOut">5</output>
-          <input type="range" id="years" min="1" max="10" step="1" value="5">
-        </div>
-        <div class="field">
-          <label for="km" data-i18n="controls.km">Km per year</label>
-          <output for="km" id="kmOut">5,000</output>
-          <input type="range" id="km" min="1000" max="30000" step="500" value="5000">
-        </div>
-      </fieldset>
+    <aside class="controls" data-i18n-attr="aria-label: settings.label">
+      <div id="settings"></div>
 
       <fieldset>
-        <legend data-i18n="controls.energy">Energy prices</legend>
+        <legend data-i18n="vehicles.title">Vehicles</legend>
         <div class="field">
-          <label for="petrol" data-i18n="controls.petrol">Petrol, per litre</label>
-          <output for="petrol" id="petrolOut">€2.45</output>
-          <input type="range" id="petrol" min="1.80" max="3.00" step="0.05" value="2.45">
+          <label for="reference" data-i18n="vehicles.reference">Compare with</label>
+          <select id="reference"></select>
         </div>
-        <div class="field">
-          <label for="electricity" data-i18n="controls.electricity">Electricity, per kWh</label>
-          <output for="electricity" id="electricityOut">€0.25</output>
-          <input type="range" id="electricity" min="0" max="0.60" step="0.01" value="0.25">
-        </div>
-        <label class="check"><input type="checkbox" id="freeCharging" checked> <span data-i18n="controls.freeCharging">My scooter charges for free</span></label>
+        <ul class="vehicle-list" id="vehicleList"></ul>
+        <button type="button" id="addVehicle" class="button primary wide" data-i18n="vehicles.add">Add vehicle</button>
       </fieldset>
 
-      <fieldset>
-        <legend data-i18n="controls.transit">Public transport</legend>
-        <div class="field">
-          <label for="ptPlan" data-i18n="controls.ticket">Ticket type</label>
-          <select id="ptPlan">
-            <option value="auto" selected data-i18n="plans.auto">Cheapest for my use</option>
-            <option value="full" data-i18n="plans.full">Pay per trip</option>
-            <option value="dv" data-i18n="plans.dv">Dal Voordeel (40% off-peak)</option>
-            <option value="dvr" data-i18n="plans.dvr">Dal Vrij (unlimited off-peak)</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="peak" data-i18n="controls.peak">Trips in rush hour</label>
-          <output for="peak" id="peakOut">30%</output>
-          <input type="range" id="peak" min="0" max="100" step="5" value="30">
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend data-i18n="controls.battery">Vmoto batteries</legend>
-        <div class="field">
-          <label for="batteryMode" data-i18n="controls.scenario">Scenario</label>
-          <select id="batteryMode">
-            <option value="wear" data-i18n="controls.scenarioWear">Best case: only normal ageing</option>
-            <option value="expected" selected data-i18n="controls.scenarioExpected">Expected: average failure risk</option>
-            <option value="worst" data-i18n="controls.scenarioWorst">Worst case: both packs die in year 3</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="packPrice" data-i18n="controls.packPrice">Price per pack</label>
-          <output for="packPrice" id="packPriceOut">€900</output>
-          <input type="range" id="packPrice" min="500" max="1500" step="50" value="900">
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend data-i18n="controls.lease">VW ID.7 private lease</legend>
-        <div class="field">
-          <label for="lease" data-i18n="controls.perMonth">Per month</label>
-          <output for="lease" id="leaseOut">€900</output>
-          <input type="range" id="lease" min="600" max="1200" step="10" value="900">
-        </div>
-      </fieldset>
-
-      <button type="button" id="reset" class="reset" data-i18n="controls.reset">Reset to defaults</button>
+      <button type="button" id="reset" class="button wide" data-i18n="settings.reset">Reset to defaults</button>
     </aside>
 
     <main>
@@ -126,7 +65,7 @@
 
       <section aria-labelledby="lineTitle">
         <h2 id="lineTitle" data-i18n="lineChart.title">Money spent over time</h2>
-        <p class="sub" data-i18n="lineChart.sub">The last point is after selling.</p>
+        <p class="sub" data-i18n="lineChart.sub"></p>
         <div class="legend" id="lineLegend"></div>
         <div class="chart chart-line"><canvas id="lineChart" role="img" data-i18n-attr="aria-label: lineChart.label"></canvas></div>
       </section>
@@ -135,16 +74,67 @@
         <h2 id="barTitle" data-i18n="barChart.title">Where the money goes</h2>
         <div class="legend" id="barLegend"></div>
         <div class="chart chart-bar"><canvas id="barChart" role="img" data-i18n-attr="aria-label: barChart.label"></canvas></div>
-        <p class="notes" id="notes"></p>
+        <ul class="notes" id="notes"></ul>
       </section>
 
       <section aria-labelledby="aboutTitle" class="about">
         <h2 id="aboutTitle" data-i18n="about.title">How this is calculated</h2>
         <p data-i18n="about.method"></p>
+        <p data-i18n="about.blocks"></p>
         <p data-i18n="about.caveat"></p>
       </section>
     </main>
   </div>
+
+  <dialog id="templates" class="dialog" aria-labelledby="templatesTitle">
+    <form method="dialog">
+      <header class="dialog-header">
+        <h2 id="templatesTitle" data-i18n="templates.title">Add a vehicle</h2>
+        <p class="sub" data-i18n="templates.intro"></p>
+      </header>
+      <div class="dialog-body template-list" id="templateList"></div>
+      <footer class="dialog-footer">
+        <span class="spacer"></span>
+        <button class="button" value="cancel" data-i18n="editor.cancel">Cancel</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <dialog id="editor" class="dialog dialog-wide" aria-labelledby="editorTitle">
+    <form method="dialog" id="editorForm" novalidate>
+      <header class="dialog-header">
+        <h2 id="editorTitle"></h2>
+      </header>
+      <div class="dialog-body">
+        <div class="editor-basics">
+          <div class="field">
+            <label for="vehicleName" data-i18n="editor.name">Name</label>
+            <input type="text" id="vehicleName" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="vehicleColor" data-i18n="editor.color">Colour</label>
+            <input type="color" id="vehicleColor">
+          </div>
+          <div class="field">
+            <label for="vehicleLine" data-i18n="editor.line">Line</label>
+            <select id="vehicleLine"></select>
+          </div>
+        </div>
+        <div class="blocks" id="editorBlocks"></div>
+        <div class="field add-block">
+          <label for="addBlock" data-i18n="editor.addBlock">Add a cost</label>
+          <select id="addBlock"></select>
+        </div>
+      </div>
+      <footer class="dialog-footer">
+        <button type="button" id="deleteVehicle" class="button danger" data-i18n="editor.delete">Delete</button>
+        <button type="button" id="saveCopy" class="button" data-i18n="editor.saveCopy">Save as copy</button>
+        <span class="spacer"></span>
+        <button type="button" id="cancelEdit" class="button" data-i18n="editor.cancel">Cancel</button>
+        <button type="submit" class="button primary" data-i18n="editor.save">Save</button>
+      </footer>
+    </form>
+  </dialog>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
   <script src="js/wielprijs.js"></script>
@@ -152,8 +142,24 @@
   <script src="js/locales/en.js"></script>
   <script src="js/locales/nl.js"></script>
   <script src="js/store.js"></script>
-  <script src="js/data.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/blocks.js"></script>
+  <script src="js/blocks/purchase.js"></script>
+  <script src="js/blocks/insurance.js"></script>
+  <script src="js/blocks/road-tax.js"></script>
+  <script src="js/blocks/energy.js"></script>
+  <script src="js/blocks/maintenance.js"></script>
+  <script src="js/blocks/battery.js"></script>
+  <script src="js/blocks/lease.js"></script>
+  <script src="js/blocks/transit.js"></script>
+  <script src="js/blocks/extra.js"></script>
   <script src="js/model.js"></script>
+  <script src="js/defaults.js"></script>
+  <script src="js/templates.js"></script>
+  <script src="js/ui/dom.js"></script>
+  <script src="js/ui/sidebar.js"></script>
+  <script src="js/ui/editor.js"></script>
+  <script src="js/ui/results.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
