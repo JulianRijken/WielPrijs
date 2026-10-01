@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- On phones the results now follow right after the years and km sliders;
+  the other settings moved below the results.
+- The ranking table fits a phone screen without swiping sideways.
+- Chart labels stay readable on narrow screens.
+- iPhones no longer zoom in when a field is tapped, and buttons and
+  checkboxes are easier to hit on touch screens.
+
 ## [0.6.1] - 2026-10-01
 
 ### Fixed
