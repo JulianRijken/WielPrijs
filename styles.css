@@ -109,7 +109,14 @@ body {
   cursor: pointer;
 }
 .lang-switch button[aria-pressed="true"] { background: #fff; color: var(--plate-ink); }
-@media (max-width: 860px) { .lang-switch { right: 16px; } }
+@media (max-width: 860px) {
+  .hero-inner { padding: 56px 16px 28px; }
+  .lang-switch { right: 16px; }
+  .lede { margin-bottom: 20px; font-size: 1rem; }
+  .plate { min-height: 68px; }
+  .plate-amount { padding: 10px 18px 6px; }
+  .hero-caption { font-size: 1rem; }
+}
 
 /* Layout */
 .layout {
@@ -121,10 +128,6 @@ body {
   gap: 40px;
   align-items: start;
 }
-@media (max-width: 860px) {
-  .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 24px 16px 48px; }
-}
-
 /* Controls */
 .controls {
   position: sticky;
@@ -137,11 +140,31 @@ body {
   overflow-y: auto;
   overscroll-behavior: contain;
 }
-@media (max-width: 860px) { .controls { position: static; max-height: none; } }
 
 fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .controls fieldset { margin: 0 0 18px; padding: 0 0 16px; border-bottom: 1px solid var(--rule); }
 legend { font-weight: 700; font-size: 0.95rem; padding: 0; margin-bottom: 10px; }
+
+/* Small screens: one column, with the main sliders right above the results and
+   the other settings below them. The settings panel dissolves (display: contents)
+   so each group becomes its own card that can be ordered around <main>. */
+@media (max-width: 860px) {
+  .layout { display: flex; flex-direction: column; align-items: stretch; gap: 16px; padding: 16px 16px 48px; }
+  .controls, #settings { display: contents; }
+  .controls fieldset {
+    order: 3;
+    margin: 0;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-l);
+  }
+  .controls fieldset[data-group="use"] { order: 1; }
+  main { order: 2; min-width: 0; margin: 16px 0; }
+  /* Keep the legend inside the card instead of on its border. */
+  .controls legend { float: left; width: 100%; }
+  .controls legend + * { clear: both; }
+}
 
 .field {
   display: grid;
