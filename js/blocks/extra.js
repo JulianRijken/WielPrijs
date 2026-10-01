@@ -4,6 +4,7 @@
 WielPrijs.blocks.register({
   type: "extra",
   category: "other",
+  title: (p) => p.label,
   fields: [
     { key: "label", kind: "text", default: "" },
     { key: "amount", kind: "money", default: 0 },

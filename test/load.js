@@ -20,6 +20,8 @@ const SCRIPTS = [
   "js/blocks/transit.js",
   "js/blocks/extra.js",
   "js/model.js",
+  "js/defaults.js",
+  "js/templates.js",
 ];
 
 for (const file of SCRIPTS) require(path.join(__dirname, "..", file));

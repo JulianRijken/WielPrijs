@@ -4,6 +4,7 @@
 // Block type definition:
 //   type        unique id; labels live under "blocks.<type>" in the dictionaries
 //   category    breakdown category its cost counts towards (see CATEGORIES)
+//   title       optional function (params) → text, overriding the translated title
 //   fields      editable parameters, shown in the vehicle editor
 //   compute(params, ctx) → { upfront, yearly, refund, notes }, all optional:
 //     upfront   paid at the start
