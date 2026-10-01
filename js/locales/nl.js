@@ -15,12 +15,27 @@ WielPrijs.i18n.register("nl", {
     groups: {
       use: "Jouw gebruik",
       energy: "Energieprijzen",
+      money: "Geld en tijd",
     },
     years: "Jaren",
     kmPerYear: "Km per jaar",
     petrol: "Benzine, per liter",
     diesel: "Diesel, per liter",
     electricity: "Stroom, per kWh",
+    inflation: "Inflatie, per jaar",
+    interest: "Spaarrente, per jaar",
+    view: "Bedragen tonen als",
+    hints: {
+      inflation: "Lopende kosten en prijzen van gebruikte voertuigen stijgen elk jaar zoveel, tenzij een kostenpost een eigen prijsverandering heeft.",
+      interest: "Wat geld dat je nog niet uitgeeft in de tussentijd oplevert.",
+      view: "Waarde van nu verdisconteert elke toekomstige betaling met die rente, zodat nu betalen en later betalen eerlijk te vergelijken zijn.",
+    },
+    options: {
+      view: {
+        today: "Waarde van nu",
+        paid: "Euro's zoals betaald",
+      },
+    },
   },
   vehicles: {
     title: "Voertuigen",
@@ -76,7 +91,8 @@ WielPrijs.i18n.register("nl", {
   },
   ranking: {
     title: "Ranglijst",
-    sub: "Echte kosten na verkoop over {years}, goedkoopste eerst.",
+    subPaid: "Alles wat je betaalt over {years}, min de verkoop, goedkoopste eerst. Prijzen stijgen {inflation} per jaar.",
+    subToday: "Wat alle betalingen over {years} nu waard zijn, min de verkoop, goedkoopste eerst. Prijzen stijgen {inflation} per jaar; sparen levert {interest} op.",
     option: "Optie",
     total: "Totaal",
     perMonth: "Per maand",
@@ -109,6 +125,11 @@ WielPrijs.i18n.register("nl", {
     other: "Overige kosten",
   },
   blocks: {
+    common: {
+      priceChange: "Prijsverandering per jaar",
+      priceChangeHint: "Laat leeg om de inflatie te volgen.",
+      inflation: "inflatie",
+    },
     purchase: {
       title: "Aankoop en verkoop",
       description: "Wat je vooraf betaalt, en wat je terugkrijgt bij verkoop.",
@@ -120,18 +141,27 @@ WielPrijs.i18n.register("nl", {
         resaleKmPerYear: "…bij km per jaar",
         valueLossPerKm: "Waardeverandering per km",
         minimumValue: "Laagst mogelijke waarde",
+        priceChange: "Prijsverandering gebruikte voertuigen per jaar",
       },
       hints: {
         resaleValue: "Na de leeftijd en kilometerstand onder Meer instellingen: 5 jaar bij 5.000 km per jaar, tenzij je ze aanpast.",
         valueLossPerKm: "Verlaagt de waarde voor elke km boven die kilometerstand, verhoogt hem voor elke km eronder.",
         minimumValue: "Leeg betekent 10% van de aankoopprijs.",
+        priceChange: "De restwaarde hierboven is in prijzen van nu. Laat leeg om de inflatie te volgen.",
       },
     },
     insurance: {
       title: "Verzekering",
-      description: "Je premie per jaar.",
+      description: "Je premie per jaar. Met no-claimkorting daalt die elk jaar zonder schade.",
       fields: {
-        perYear: "Premie",
+        perYear: "Premie nu",
+        discountNow: "No-claimkorting nu",
+        discountStep: "Extra korting per schadevrij jaar",
+        discountMax: "Hoogste korting",
+      },
+      hints: {
+        discountNow: "Zit al in de premie hierboven.",
+        discountStep: "In procentpunten. Verzekeraars verhogen de korting elk jaar zonder schade, tot een maximum.",
       },
     },
     roadTax: {
@@ -218,7 +248,7 @@ WielPrijs.i18n.register("nl", {
         farePerKm: "Tarief",
         plan: "Abonnement",
         peakShare: "Ritten in de spits",
-        fareRise: "Tariefstijging per jaar",
+        priceChange: "Tariefstijging per jaar",
         discountableShare: "Deel van het tarief voor de trein",
         offPeakDiscount: "Korting Dal Voordeel",
         offPeakDiscountFee: "Prijs Dal Voordeel",
@@ -259,12 +289,13 @@ WielPrijs.i18n.register("nl", {
     batteryFailed: "accu's gaan kapot en worden vervangen in jaar {year}.",
     batteryWorn: "accu's versleten en vervangen in jaar {year}.",
     batteryWarranty: "verkocht terwijl de accugarantie nog loopt.",
-    leaseRenews: "de lease wordt na jaar {year} verlengd tegen dezelfde prijs.",
+    leaseRenews: "de lease wordt na jaar {year} verlengd, tegen de prijzen van dat moment.",
     transitPlan: "het goedkoopste abonnement is {plan}.",
   },
   about: {
     title: "Zo wordt het berekend",
     method: "De totale kosten zijn alles wat je betaalt (aankoop, bijkomende kosten, verzekering, wegenbelasting, brandstof of stroom, onderhoud, nieuwe accu's, lease of kaartjes) min wat je terugkrijgt bij verkoop. Restwaardes volgen een curve waarin voertuigen in de eerste jaren het snelst in waarde dalen.",
+    money: "Inflatie maakt lopende kosten en gebruikte voertuigen elk jaar duurder; een leaseprijs ligt vast zolang het contract loopt. Waarde van nu verdisconteert elke toekomstige betaling met de rente die je spaargeld tot dan zou opleveren. Zo zie je of nu of later betalen goedkoper is: stijgen prijzen sneller dan je spaargeld groeit, dan wint vooraf kopen; levert sparen meer op, dan wint betalen naar gebruik.",
     blocks: "Elk voertuig is een lijst kostenposten die je kunt aanpassen, aanvullen of weghalen. Met Voertuig toevoegen vergelijk je alles wat je wilt.",
     caveat: "Verzekering en restwaardes zijn schattingen, dus vraag zelf offertes op.",
   },

@@ -15,12 +15,27 @@ WielPrijs.i18n.register("en", {
     groups: {
       use: "Your use",
       energy: "Energy prices",
+      money: "Money and time",
     },
     years: "Years",
     kmPerYear: "Km per year",
     petrol: "Petrol, per litre",
     diesel: "Diesel, per litre",
     electricity: "Electricity, per kWh",
+    inflation: "Inflation, per year",
+    interest: "Interest on savings, per year",
+    view: "Show amounts as",
+    hints: {
+      inflation: "Running costs and used-vehicle prices rise by this much each year, unless a cost has its own price change.",
+      interest: "What money you do not spend yet earns in the meantime.",
+      view: "Value today discounts every future payment by that interest, so paying now and paying later compare fairly.",
+    },
+    options: {
+      view: {
+        today: "Value today",
+        paid: "Euros as paid",
+      },
+    },
   },
   vehicles: {
     title: "Vehicles",
@@ -76,7 +91,8 @@ WielPrijs.i18n.register("en", {
   },
   ranking: {
     title: "Ranking",
-    sub: "True cost after selling over {years}, cheapest first.",
+    subPaid: "Everything paid over {years}, minus the sale, cheapest first. Prices rise {inflation} a year.",
+    subToday: "What all payments over {years} are worth today, minus the sale, cheapest first. Prices rise {inflation} a year; savings earn {interest}.",
     option: "Option",
     total: "Total",
     perMonth: "Per month",
@@ -109,6 +125,11 @@ WielPrijs.i18n.register("en", {
     other: "Other costs",
   },
   blocks: {
+    common: {
+      priceChange: "Price change per year",
+      priceChangeHint: "Leave empty to follow inflation.",
+      inflation: "inflation",
+    },
     purchase: {
       title: "Purchase and resale",
       description: "What you pay up front, and what you get back when you sell.",
@@ -120,18 +141,27 @@ WielPrijs.i18n.register("en", {
         resaleKmPerYear: "…when driving per year",
         valueLossPerKm: "Value change per km",
         minimumValue: "Lowest possible value",
+        priceChange: "Used-vehicle prices change per year",
       },
       hints: {
         resaleValue: "After the age and mileage under More settings: 5 years at 5,000 km a year, unless you change them.",
         valueLossPerKm: "Lowers the value for every km above that mileage, raises it for every km below.",
         minimumValue: "Empty means 10% of the purchase price.",
+        priceChange: "The resale value above is in today's prices. Leave empty to follow inflation.",
       },
     },
     insurance: {
       title: "Insurance",
-      description: "Your yearly premium.",
+      description: "Your yearly premium. With a no-claim discount it drops every year without claims.",
       fields: {
-        perYear: "Premium",
+        perYear: "Premium now",
+        discountNow: "No-claim discount now",
+        discountStep: "Extra discount per claim-free year",
+        discountMax: "Highest discount",
+      },
+      hints: {
+        discountNow: "Already included in the premium above.",
+        discountStep: "In percentage points. Dutch insurers raise the discount every year without claims, up to a maximum.",
       },
     },
     roadTax: {
@@ -218,7 +248,7 @@ WielPrijs.i18n.register("en", {
         farePerKm: "Fare",
         plan: "Ticket",
         peakShare: "Trips in rush hour",
-        fareRise: "Fare rise per year",
+        priceChange: "Fare rise per year",
         discountableShare: "Share of the fare spent on the train",
         offPeakDiscount: "Dal Voordeel discount",
         offPeakDiscountFee: "Dal Voordeel price",
@@ -259,12 +289,13 @@ WielPrijs.i18n.register("en", {
     batteryFailed: "battery packs fail and are replaced in year {year}.",
     batteryWorn: "battery packs worn out and replaced in year {year}.",
     batteryWarranty: "sold while the battery warranty is still running.",
-    leaseRenews: "the lease is renewed at the same price after year {year}.",
+    leaseRenews: "the lease is renewed after year {year}, at the prices of that time.",
     transitPlan: "the cheapest ticket is {plan}.",
   },
   about: {
     title: "How this is calculated",
     method: "Total cost is everything you pay (purchase, fees, insurance, road tax, fuel or electricity, upkeep, battery replacements, lease or tickets) minus what you get back when you sell. Resale values follow a curve where vehicles lose value fastest in the first years.",
+    money: "Inflation raises running costs and used-vehicle prices every year; a lease price stays fixed for the length of its contract. Value today discounts each future payment by the interest your savings would earn until then. That shows whether paying now or later is cheaper: when prices rise faster than savings grow, buying up front gains; when savings earn more, paying as you go gains.",
     blocks: "Every vehicle is a list of costs that you can edit, extend or remove. Use Add vehicle to compare anything else.",
     caveat: "Insurance and resale values are estimates, so check your own quotes.",
   },

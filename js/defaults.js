@@ -16,6 +16,9 @@ WielPrijs.defaults = {
     petrol: 2.45,
     diesel: 2.1,
     electricity: 0.25,
+    inflation: 2.5,
+    interest: 2,
+    view: "today",
     reference: "vmoto",
   },
   vehicles: [

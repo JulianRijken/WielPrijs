@@ -14,15 +14,18 @@ WielPrijs.blocks.register({
     { key: "resaleKmPerYear", kind: "number", default: 5000, step: 500, unit: "km", advanced: true },
     { key: "valueLossPerKm", kind: "money", default: 0, step: 0.001, advanced: true, hint: true },
     { key: "minimumValue", kind: "money", default: null, optional: true, advanced: true, hint: true },
+    { ...WielPrijs.blocks.PRICE_CHANGE, label: "blocks.purchase.fields.priceChange", hint: true },
   ],
   compute(p, ctx) {
     const ratio = p.price > 0 ? p.resaleValue / p.price : 0;
     const curve = p.price * Math.pow(ratio, ctx.years / p.resaleAge);
     const extraKm = (ctx.kmPerYear - p.resaleKmPerYear) * ctx.years;
     const floor = p.minimumValue ?? p.price * 0.1;
+    const value = Math.max(floor, curve - extraKm * p.valueLossPerKm);
     return {
       upfront: p.price + p.fees,
-      refund: Math.max(floor, curve - extraKm * p.valueLossPerKm),
+      // The curve is in today's prices; used vehicles are sold at the prices of the end.
+      refund: value * ctx.priceFactor(ctx.years + 1, p.priceChange),
     };
   },
 });

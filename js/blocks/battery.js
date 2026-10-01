@@ -24,15 +24,16 @@
       { key: "oldAfterYears", kind: "integer", default: 5, advanced: true },
       { key: "failureRateOld", kind: "percent", default: 8, advanced: true },
       { key: "resaleShare", kind: "percent", default: 35, advanced: true, hint: true },
+      app.blocks.PRICE_CHANGE,
     ],
     compute(p, ctx) {
-      const replaceAll = p.packs * p.packPrice;
       const yearly = [];
       const notes = [];
       let packsFrom = 0; // year the current packs were fitted
       let kmOnPacks = 0;
 
       for (let year = 1; year <= ctx.years; year++) {
+        const replaceAll = p.packs * p.packPrice * ctx.priceFactor(year, p.priceChange);
         let cost = 0;
         kmOnPacks += ctx.kmPerYear;
         const age = year - packsFrom;
