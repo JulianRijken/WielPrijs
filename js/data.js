@@ -12,7 +12,7 @@
 // color  [light, dark] line colour; same model = same colour
 // dash   line dash pattern; variants of a model use different dashes
 
-globalThis.VEHICLES = [
+WielPrijs.VEHICLES = [
   { id: "vmoto", name: "Vmoto TC (yours)", p: 2848, r: 0, i: 324, t: 0, fuel: "electric", c: 3.5,
     f: 40, k: 0.022, rv: 900, d: 0.01, battery: true, color: ["#2a78d6", "#3987e5"], dash: [], width: 3 },
   { id: "pt", name: "Public transport (NS + bus)", type: "pt", color: ["#008300", "#3fae3f"], dash: [], width: 3 },
@@ -35,7 +35,7 @@ globalThis.VEHICLES = [
 ];
 
 // Public transport: door-to-door fare per km at full price (train + bus legs).
-globalThis.PT = {
+WielPrijs.PT = {
   farePerKm: 0.28,
   yearlyRise: 0.04,       // fares rise 4% per year
   trainShare: 0.75,       // share of the fare that is train (discounts apply only here)
@@ -45,7 +45,7 @@ globalThis.PT = {
 };
 
 // Vmoto battery packs.
-globalThis.BATTERY = {
+WielPrijs.BATTERY = {
   packs: 2,
   warrantyYears: 2,
   wearKm: 80000,          // replace after this many km...
@@ -55,4 +55,4 @@ globalThis.BATTERY = {
   resaleBoost: 0.35,      // share of recent battery spend recovered at sale
 };
 
-globalThis.UPKEEP_GROWTH = 0.05; // upkeep rises 5% per year as vehicles age
+WielPrijs.UPKEEP_GROWTH = 0.05; // upkeep rises 5% per year as vehicles age
