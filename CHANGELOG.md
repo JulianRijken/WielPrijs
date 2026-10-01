@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Changes are saved in the browser and restored on the next visit.
+- Export the whole setup to a JSON file, and import it again, for a backup or
+  another device.
+- The footer shows the version and that settings never leave the browser.
+
+### Changed
+
+- Reset to defaults asks for confirmation first.
+
+### Fixed
+
+- The sidebar scrolls on its own when it is taller than the window, so the
+  vehicle list and buttons are always reachable.
+
 ## [0.3.0] - 2026-10-01
 
 ### Added
