@@ -95,7 +95,8 @@ After merging a branch that contains a `feat` or `fix` into `main`, cut a releas
 1. Pick the new version: `fix` bumps the patch, `feat` bumps the minor, a
    breaking change bumps the major (before 1.0.0, the minor).
 2. In `CHANGELOG.md`, rename `[Unreleased]` to `[x.y.z] - YYYY-MM-DD` and add
-   a fresh empty `[Unreleased]` section above it.
+   a fresh empty `[Unreleased]` section above it. At the bottom, point
+   `[Unreleased]` at `vx.y.z...HEAD` and add a compare link for `[x.y.z]`.
 3. Update the version number in the code (see the version test).
 4. Commit as `chore(release): x.y.z` and tag it `vx.y.z`.
 
@@ -104,6 +105,6 @@ Merges with only `refactor`, `test`, `docs` or `chore` changes wait under
 
 Version 1.0.0 will be the first public release on GitHub Pages.
 
-Once the repository is on GitHub, push the tags too (`git push --follow-tags`),
-and consider protecting `main` so changes arrive through pull requests with
-the Test workflow passing.
+The repository lives at https://github.com/JulianRijken/WielPrijs. Push
+releases with their tags (`git push --follow-tags`), and consider protecting
+`main` so changes arrive through pull requests with the Test workflow passing.
