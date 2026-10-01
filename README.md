@@ -6,14 +6,12 @@ Plain HTML, CSS and JavaScript. No build step.
 
 ## Run it
 
-Open `index.html` in a browser. That's it.
+Open `index.html` in a browser. That is it.
 
 Or serve it locally (useful while developing):
 
 ```bash
-npx serve .
-# or
-python3 -m http.server 8000
+npm start
 ```
 
 ## Files
@@ -22,21 +20,20 @@ python3 -m http.server 8000
 |---|---|
 | `index.html` | Page structure and controls |
 | `styles.css` | All styling, including dark mode |
-| `data.js` | Every assumption: prices, insurance, road tax, consumption, resale values, PT fares, battery risk |
-| `model.js` | The calculation. Pure functions, no DOM, so you can test it in Node |
-| `app.js` | Reads the controls, runs the model, draws the ranking table and charts |
+| `js/wielprijs.js` | Root namespace and app version, loaded first |
+| `js/data.js` | Every assumption: prices, insurance, road tax, consumption, resale values, PT fares, battery risk |
+| `js/model.js` | The calculation. Pure functions, no DOM, so it runs in Node |
+| `js/app.js` | Reads the controls, runs the model, draws the ranking table and charts |
 
-To change a number, edit `data.js`. To add a vehicle, add an object to `VEHICLES`.
+To change a number, edit `js/data.js`. To add a vehicle, add an object to `VEHICLES`.
 
-## Test the model
+## Test
 
 ```bash
-node -e 'require("./data.js"); require("./model.js");
-const r = CostModel.compute({ years: 5, km: 5000, petrol: 2.45, electricity: 0.25,
-  lease: 900, freeCharging: true, ptPlan: "auto", peak: 0.3,
-  batteryMode: "expected", packPrice: 900 });
-r.results.forEach(x => console.log(x.v.name, Math.round(x.total)));'
+npm test
 ```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for branches, commits and releases.
 
 ## Ideas to build next in Claude Code
 

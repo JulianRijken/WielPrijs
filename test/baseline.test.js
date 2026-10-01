@@ -4,8 +4,7 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 
-require("../data.js");
-require("../model.js");
+const app = require("./load");
 
 const BASE = { years: 5, km: 5000, petrol: 2.45, electricity: 0.25, freeCharging: true,
   ptPlan: "auto", peak: 0.3, batteryMode: "expected", packPrice: 900, lease: 900 };
@@ -47,7 +46,7 @@ const CASES = {
 
 for (const [name, c] of Object.entries(CASES)) {
   test(`original totals: ${name}`, () => {
-    const { results, plan } = CostModel.compute(c.settings);
+    const { results, plan } = app.model.compute(c.settings);
     assert.equal(plan, c.plan);
     for (const r of results) {
       assert.ok(Math.abs(r.total - c.totals[r.v.id]) < 0.01, `${r.v.id}: ${r.total} != ${c.totals[r.v.id]}`);

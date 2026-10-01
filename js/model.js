@@ -5,7 +5,7 @@
   const sum = (a) => a.reduce((s, x) => s + x, 0);
 
   function ptYear(plan, km, peak, y) {
-    const PT = globalThis.PT;
+    const PT = WielPrijs.PT;
     const g = Math.pow(1 + PT.yearlyRise, y - 1);
     const fare = PT.farePerKm * g;
     if (plan === "full") return km * fare;
@@ -29,12 +29,12 @@
   }
 
   function compute(s) {
-    const B = globalThis.BATTERY;
+    const B = WielPrijs.BATTERY;
     const Y = s.years;
     const plan = pickPlan(s);
     const notes = new Set();
 
-    const results = globalThis.VEHICLES.map((v) => {
+    const results = WielPrijs.VEHICLES.map((v) => {
       const b = emptyBreakdown();
       const line = [0];
 
@@ -64,7 +64,7 @@
       let cum = upfront, upkeep = 0, batterySpend = [], packStart = 0, kmSincePack = 0;
 
       for (let y = 1; y <= Y; y++) {
-        const m = v.f * (1 + globalThis.UPKEEP_GROWTH * (y - 1)) + s.km * v.k;
+        const m = v.f * (1 + WielPrijs.UPKEEP_GROWTH * (y - 1)) + s.km * v.k;
         let bc = 0;
         if (v.battery) {
           kmSincePack += s.km;
@@ -105,5 +105,5 @@
     return { results, plan, notes: [...notes] };
   }
 
-  globalThis.CostModel = { compute, ptYear };
+  WielPrijs.model = { compute, ptYear };
 })();
