@@ -1,0 +1,12 @@
+{
+  "name": "wielprijs",
+  "private": true,
+  "description": "Compare the true cost of getting around in the Netherlands.",
+  "scripts": {
+    "start": "npx --yes serve --listen 3000 .",
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
