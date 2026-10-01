@@ -42,7 +42,12 @@ settings to blocks through the context built in `js/model.js`.
 **A new language**: copy `js/locales/en.js`, translate it, add a script tag and
 a button in the language switch, and its Intl locale in `js/i18n.js`.
 
-**Different defaults**: edit `js/defaults.js`.
+**Different defaults**: set up the comparison in the page, click Export, and
+paste the file's `settings` and `vehicles` into `js/defaults.js`.
+
+**A change to the saved data's shape**: visitors keep their saved state across
+versions, so loading goes through `normalize()` in `js/state.js`. Make it
+accept the old shape too, or bump `SCHEMA` there and migrate.
 
 ## Branches
 

@@ -20,6 +20,8 @@ npm start
 - **Edit** a vehicle to change any of its costs, or **Add vehicle** to start
   from a template (scooter, motorbike, car, electric car, lease, public
   transport or empty).
+- Everything is saved in your browser. **Export** and **Import** move a setup
+  between devices or people.
 
 ## How it works
 
@@ -47,7 +49,7 @@ The model only adds blocks up, so any mix is possible.
 | `styles.css` | All styling, including dark mode |
 | `js/wielprijs.js` | Root namespace and app version, loaded first |
 | `js/i18n.js`, `js/locales/` | Translations and locale-aware number formatting |
-| `js/store.js` | Browser storage |
+| `js/store.js`, `js/state.js` | Browser storage, and checking state loaded from storage or a file |
 | `js/settings.js` | Global settings (years, distance, energy prices) |
 | `js/blocks.js`, `js/blocks/` | The cost block registry and one file per block type |
 | `js/model.js` | The calculation. Pure functions, no DOM, so it runs in Node |
