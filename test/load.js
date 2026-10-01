@@ -5,6 +5,9 @@ const path = require("node:path");
 
 const SCRIPTS = [
   "js/wielprijs.js",
+  "js/i18n.js",
+  "js/locales/en.js",
+  "js/locales/nl.js",
   "js/data.js",
   "js/model.js",
 ];
