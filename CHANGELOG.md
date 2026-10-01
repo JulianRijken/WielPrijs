@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Charts no longer animate when a setting changes, so the effect of moving a
+  slider is easy to follow.
+
 ## [0.6.0] - 2026-10-01
 
 ### Added

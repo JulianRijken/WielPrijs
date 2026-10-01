@@ -45,18 +45,19 @@
   };
 
   function init() {
-    const animation = matchMedia("(prefers-reduced-motion: reduce)").matches ? false : { duration: 250 };
     const grid = { color: css("--grid") };
 
     Chart.defaults.font.family = '"Overpass", "Helvetica Neue", Arial, sans-serif';
     Chart.defaults.font.size = 12;
     Chart.defaults.color = css("--muted");
+    // Charts redraw on every slider step; animating each redraw makes changes hard to follow.
+    Chart.defaults.animation = false;
 
     lineChart = new Chart($("lineChart"), {
       type: "line",
       data: { labels: [], datasets: [] },
       options: {
-        responsive: true, maintainAspectRatio: false, animation,
+        responsive: true, maintainAspectRatio: false,
         interaction: { mode: "index", intersect: false },
         plugins: {
           legend: { display: false },
@@ -77,7 +78,7 @@
       data: { datasets: [] },
       plugins: [markerPlugin],
       options: {
-        responsive: true, maintainAspectRatio: false, animation: false,
+        responsive: true, maintainAspectRatio: false,
         interaction: { mode: "index", intersect: false },
         elements: { point: { radius: 0, hoverRadius: 4 } },
         plugins: {
@@ -102,7 +103,7 @@
       type: "bar",
       data: { labels: [], datasets: [] },
       options: {
-        indexAxis: "y", responsive: true, maintainAspectRatio: false, animation,
+        indexAxis: "y", responsive: true, maintainAspectRatio: false,
         plugins: {
           legend: { display: false },
           tooltip: {
