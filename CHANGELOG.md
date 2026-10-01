@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Cost by distance: a chart of every option's total across all distances per
+  year, with your own distance marked, and the distances at which an option
+  becomes cheaper or dearer than the one you compare with.
+
 ## [0.5.0] - 2026-10-01
 
 ### Added
