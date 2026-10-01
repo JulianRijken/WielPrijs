@@ -40,7 +40,16 @@
         <button type="button" id="addVehicle" class="button primary wide" data-i18n="vehicles.add">Add vehicle</button>
       </fieldset>
 
-      <button type="button" id="reset" class="button wide" data-i18n="settings.reset">Reset to defaults</button>
+      <fieldset>
+        <legend data-i18n="data.title">Your data</legend>
+        <p class="hint" data-i18n="data.saved"></p>
+        <div class="button-row">
+          <button type="button" id="exportData" class="button" data-i18n="data.export">Export</button>
+          <button type="button" id="importData" class="button" data-i18n="data.import">Import</button>
+          <input type="file" id="importFile" accept=".json,application/json" hidden>
+        </div>
+        <button type="button" id="reset" class="button wide" data-i18n="data.reset">Reset to defaults</button>
+      </fieldset>
     </aside>
 
     <main>
@@ -85,6 +94,10 @@
       </section>
     </main>
   </div>
+
+  <footer class="site-footer">
+    WielPrijs <span id="version"></span> · <span data-i18n="data.privacy"></span>
+  </footer>
 
   <dialog id="templates" class="dialog" aria-labelledby="templatesTitle">
     <form method="dialog">
@@ -156,6 +169,7 @@
   <script src="js/model.js"></script>
   <script src="js/defaults.js"></script>
   <script src="js/templates.js"></script>
+  <script src="js/state.js"></script>
   <script src="js/ui/dom.js"></script>
   <script src="js/ui/sidebar.js"></script>
   <script src="js/ui/editor.js"></script>

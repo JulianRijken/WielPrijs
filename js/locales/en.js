@@ -21,7 +21,6 @@ WielPrijs.i18n.register("en", {
     petrol: "Petrol, per litre",
     diesel: "Diesel, per litre",
     electricity: "Electricity, per kWh",
-    reset: "Reset to defaults",
   },
   vehicles: {
     title: "Vehicles",
@@ -29,6 +28,17 @@ WielPrijs.i18n.register("en", {
     add: "Add vehicle",
     edit: "Edit",
     editLabel: "Edit {vehicle}",
+  },
+  data: {
+    title: "Your data",
+    saved: "Changes are saved in this browser. Export them to keep a copy or move them to another device.",
+    export: "Export",
+    import: "Import",
+    importConfirm: { one: "Replace everything with the imported file ({count} vehicle)?", other: "Replace everything with the imported file ({count} vehicles)?" },
+    importError: "This file could not be read. Is it a WielPrijs export?",
+    reset: "Reset to defaults",
+    resetConfirm: "Throw away your changes and go back to the default comparison?",
+    privacy: "Your settings are stored only in this browser. No cookies, nothing is sent anywhere.",
   },
   templates: {
     title: "Add a vehicle",

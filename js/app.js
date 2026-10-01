@@ -1,6 +1,6 @@
-// Entry point: holds the state, wires the UI together and redraws on every change.
+// Entry point: holds the state, wires the UI together, saves and redraws on every change.
 //
-// state = { settings, vehicles }, the same shape as WielPrijs.defaults.
+// state = { settings, vehicles }, see js/state.js.
 
 (function (app) {
   const { $ } = app.ui;
@@ -10,11 +10,25 @@
   // Colours for new vehicles; the first one not in use is picked.
   const PALETTE = ["#2a78d6", "#008300", "#eb6834", "#c98a00", "#d1557f", "#6250d6", "#d63a3a", "#0e8f8f", "#8a5a2b", "#5b6b7b"];
 
-  let state = structuredClone(app.defaults);
+  let state = loadState();
 
-  const newId = () => `v-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+  const newId = app.state.newId;
   const findVehicle = (id) => state.vehicles.find((v) => v.id === id);
   const shownVehicles = () => state.vehicles.filter((v) => !v.hidden);
+
+  function loadState() {
+    const saved = app.store.read("state");
+    if (!saved) return app.state.fresh();
+    try {
+      return app.state.normalize(saved);
+    } catch {
+      return app.state.fresh();
+    }
+  }
+
+  function save() {
+    app.store.write("state", app.state.toStored(state));
+  }
 
   // The vehicle everything is compared with; falls back to the first one shown.
   function referenceVehicle() {
@@ -47,15 +61,17 @@
     });
     sidebar.renderSettings(state.settings, (key, value) => {
       state.settings[key] = value;
+      save();
       renderResults();
     });
     renderVehicles();
     renderResults();
   }
 
-  // Applies a change to the vehicles and redraws what depends on them.
+  // Applies a change to the vehicles, saves, and redraws what depends on them.
   function update(change) {
     change();
+    save();
     renderVehicles();
     renderResults();
   }
@@ -91,6 +107,34 @@
     }),
   });
 
+  // Export, import and reset
+
+  function exportFile() {
+    const url = URL.createObjectURL(new Blob([app.state.toFile(state)], { type: "application/json" }));
+    const link = Object.assign(document.createElement("a"), { href: url, download: "wielprijs.json" });
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  async function importFile(file) {
+    try {
+      const imported = app.state.normalize(JSON.parse(await file.text()));
+      if (!confirm(t("data.importConfirm", { count: imported.vehicles.length }))) return;
+      state = imported;
+      save();
+      renderAll();
+    } catch {
+      alert(t("data.importError"));
+    }
+  }
+
+  function reset() {
+    if (!confirm(t("data.resetConfirm"))) return;
+    state = app.state.fresh();
+    app.store.remove("state");
+    renderAll();
+  }
+
   // Language
 
   function chooseLanguage(code) {
@@ -105,10 +149,14 @@
     button.addEventListener("click", () => chooseLanguage(button.dataset.lang));
   });
   $("addVehicle").addEventListener("click", () => editor.openTemplates());
-  $("reset").addEventListener("click", () => {
-    state = structuredClone(app.defaults);
-    renderAll();
+  $("exportData").addEventListener("click", exportFile);
+  $("importData").addEventListener("click", () => $("importFile").click());
+  $("importFile").addEventListener("change", (e) => {
+    if (e.target.files[0]) importFile(e.target.files[0]);
+    e.target.value = "";
   });
+  $("reset").addEventListener("click", reset);
+  $("version").textContent = app.version;
 
   app.i18n.setLanguage(app.store.read("language") ?? app.i18n.detect());
   results.init();
