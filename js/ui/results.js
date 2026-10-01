@@ -159,8 +159,8 @@
           lineSample(r.vehicle.color, r.vehicle.line),
           localize(r.vehicle.name))),
         h("td", {}, money(r.total)),
-        h("td", {}, money(r.total / months)),
-        h("td", {}, money(r.total / totalKm, { decimals: 2 })),
+        h("td", { class: "wide-only" }, money(r.total / months)),
+        h("td", { class: "wide-only" }, money(r.total / totalKm, { decimals: 2 })),
         h("td", {}, versus));
     }));
   }
