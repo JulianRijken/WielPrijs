@@ -109,7 +109,14 @@ body {
   cursor: pointer;
 }
 .lang-switch button[aria-pressed="true"] { background: #fff; color: var(--plate-ink); }
-@media (max-width: 860px) { .lang-switch { right: 16px; } }
+@media (max-width: 860px) {
+  .hero-inner { padding: 56px 16px 28px; }
+  .lang-switch { right: 16px; }
+  .lede { margin-bottom: 20px; font-size: 1rem; }
+  .plate { min-height: 68px; }
+  .plate-amount { padding: 10px 18px 6px; }
+  .hero-caption { font-size: 1rem; }
+}
 
 /* Layout */
 .layout {
@@ -121,10 +128,6 @@ body {
   gap: 40px;
   align-items: start;
 }
-@media (max-width: 860px) {
-  .layout { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 24px 16px 48px; }
-}
-
 /* Controls */
 .controls {
   position: sticky;
@@ -137,11 +140,31 @@ body {
   overflow-y: auto;
   overscroll-behavior: contain;
 }
-@media (max-width: 860px) { .controls { position: static; max-height: none; } }
 
 fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
 .controls fieldset { margin: 0 0 18px; padding: 0 0 16px; border-bottom: 1px solid var(--rule); }
 legend { font-weight: 700; font-size: 0.95rem; padding: 0; margin-bottom: 10px; }
+
+/* Small screens: one column, with the main sliders right above the results and
+   the other settings below them. The settings panel dissolves (display: contents)
+   so each group becomes its own card that can be ordered around <main>. */
+@media (max-width: 860px) {
+  .layout { display: flex; flex-direction: column; align-items: stretch; gap: 16px; padding: 16px 16px 48px; }
+  .controls, #settings { display: contents; }
+  .controls fieldset {
+    order: 3;
+    margin: 0;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-l);
+  }
+  .controls fieldset[data-group="use"] { order: 1; }
+  main { order: 2; min-width: 0; margin: 16px 0; }
+  /* Keep the legend inside the card instead of on its border. */
+  .controls legend { float: left; width: 100%; }
+  .controls legend + * { clear: both; }
+}
 
 .field {
   display: grid;
@@ -178,6 +201,15 @@ input[type="color"] {
 }
 .check { display: flex; gap: 8px; align-items: center; font-size: 0.875rem; color: var(--muted); }
 .check input { accent-color: var(--sign); width: 16px; height: 16px; }
+
+/* Touch screens: iOS Safari zooms into fields whose text is under 16px, and
+   fingers need bigger targets than a mouse pointer. */
+@media (pointer: coarse) {
+  select, input[type="text"], input[type="number"] { font-size: 16px; }
+  .check input { width: 20px; height: 20px; }
+  .link-button { padding: 8px; }
+  .lang-switch button { padding: 8px 12px; }
+}
 
 .button {
   font: inherit;
@@ -233,13 +265,20 @@ h2 { font-size: 1.5rem; font-weight: 800; margin: 0 0 4px; letter-spacing: -0.00
   border-bottom: 1px solid var(--rule);
 }
 .ranking th:first-child, .ranking td:first-child { text-align: left; }
-.ranking td { text-align: right; padding: 10px 16px; border-bottom: 1px solid var(--grid); }
+.ranking td { text-align: right; padding: 10px 16px; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+.ranking td:first-child { white-space: normal; }
 .ranking tr:last-child td { border-bottom: 0; }
 .ranking .name { display: flex; align-items: center; gap: 10px; }
 .ranking .rank { color: var(--muted); min-width: 1.5em; }
 .ranking td.empty { text-align: center; color: var(--muted); padding: 24px 16px; }
 .ranking tr.mine td { background: var(--highlight); font-weight: 700; }
 .ranking .more { color: var(--muted); }
+@media (max-width: 600px) {
+  .ranking { min-width: 0; font-size: 0.875rem; }
+  .ranking th, .ranking td { padding-left: 10px; padding-right: 10px; }
+  .ranking .name { gap: 8px; }
+  .ranking .wide-only { display: none; }
+}
 
 .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.8125rem; color: var(--muted); margin: 0 0 10px; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
@@ -278,6 +317,9 @@ code { font-size: 0.9em; background: var(--surface); border: 1px solid var(--rul
   .dialog-header { padding: 16px 16px 0; }
   .dialog-body { padding: 12px 16px; }
   .dialog-footer { padding: 12px 16px; }
+  /* Two by two: Delete and Save as copy, then Cancel and Save. */
+  #editor .dialog-footer { display: grid; grid-template-columns: 1fr 1fr; }
+  #editor .dialog-footer .spacer { display: none; }
 }
 
 .template-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }

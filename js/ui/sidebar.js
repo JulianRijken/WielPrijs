@@ -41,7 +41,7 @@
   function renderSettings(settings, onChange) {
     const groups = Map.groupBy(app.settings.FIELDS, (field) => field.group);
     $("settings").replaceChildren(...[...groups].map(([group, fields]) =>
-      h("fieldset", {},
+      h("fieldset", { "data-group": group },
         h("legend", {}, t(`settings.groups.${group}`)),
         fields.map((field) => control(field, settings[field.key], onChange)))));
   }

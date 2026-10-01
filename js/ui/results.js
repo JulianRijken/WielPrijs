@@ -24,6 +24,22 @@
 
   const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
+  // Below this chart width (px), axis labels are shortened to fit phone screens.
+  const NARROW = 500;
+
+  // Splits text into at most two lines of about `max` characters, for axis labels.
+  function wrapLabel(text, max = 16) {
+    const lines = [];
+    for (const word of text.split(" ")) {
+      const last = lines.at(-1);
+      if (last !== undefined && `${last} ${word}`.length <= max) lines[lines.length - 1] = `${last} ${word}`;
+      else lines.push(word);
+    }
+    if (lines.length <= 2) return lines;
+    const rest = lines.slice(1).join(" ");
+    return [lines[0], rest.length > max ? `${rest.slice(0, max - 1)}…` : rest];
+  }
+
   // Draws a dashed vertical line at options.value on the x axis.
   const markerPlugin = {
     id: "marker",
@@ -67,7 +83,18 @@
           },
         },
         scales: {
-          x: { grid: { display: false }, ticks: { autoSkip: false } },
+          x: {
+            grid: { display: false },
+            ticks: {
+              maxRotation: 0,
+              // "Year 3" becomes "3" on narrow charts; Start and Sold stay.
+              callback(value, index, ticks) {
+                const label = this.getLabelForValue(value);
+                const isYear = index > 0 && index < ticks.length - 1;
+                return isYear && this.chart.width < NARROW ? String(index) : label;
+              },
+            },
+          },
           y: { grid, ticks: { callback: (value) => compactMoney(value) } },
         },
       },
@@ -116,7 +143,16 @@
         },
         scales: {
           x: { stacked: true, grid, ticks: { callback: (value) => compactMoney(value) } },
-          y: { stacked: true, grid: { display: false } },
+          y: {
+            stacked: true,
+            grid: { display: false },
+            ticks: {
+              callback(value) {
+                const label = this.getLabelForValue(value);
+                return this.chart.width < NARROW ? wrapLabel(label) : label;
+              },
+            },
+          },
         },
       },
     });
@@ -159,8 +195,8 @@
           lineSample(r.vehicle.color, r.vehicle.line),
           localize(r.vehicle.name))),
         h("td", {}, money(r.total)),
-        h("td", {}, money(r.total / months)),
-        h("td", {}, money(r.total / totalKm, { decimals: 2 })),
+        h("td", { class: "wide-only" }, money(r.total / months)),
+        h("td", { class: "wide-only" }, money(r.total / totalKm, { decimals: 2 })),
         h("td", {}, versus));
     }));
   }
